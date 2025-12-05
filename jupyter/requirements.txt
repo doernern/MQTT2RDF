@@ -1,0 +1,5 @@
+jupyterlab
+notebook
+SPARQLWrapper
+pandas
+rdflib
