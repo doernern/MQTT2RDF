@@ -1,0 +1,18 @@
+#{id => {ds_mq_message_lastvalue11_51F74EB4DF0B96C8,'emqx@172.19.0.3'},
+  machine =>
+      {module,emqx_ds_builtin_raft_machine,
+          #{db => mq_message_lastvalue,
+            schema =>
+                #{storage =>
+                      {emqx_ds_storage_skipstream_lts_v2,
+                          #{lts_threshold_spec => {simple,{100,0,0,100,0}}}},
+                  backend => builtin_raft,payload_type => ttv,n_sites => 1,
+                  n_shards => 16,replication_factor => 3},
+            shard => <<"11">>}},
+  uid => <<"mq_message_lastvalue11_636E4DAE">>,
+  cluster_name => <<"mq_message_lastvalue_11">>,
+  log_init_args => #{uid => <<"mq_message_lastvalue11_636E4DAE">>},
+  initial_members =>
+      [{ds_mq_message_lastvalue11_51F74EB4DF0B96C8,'emqx@172.19.0.3'}],
+  broadcast_time => 100,tick_timeout => 1000,
+  install_snap_rpc_timeout => 120000,await_condition_timeout => 30000}.

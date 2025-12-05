@@ -1,0 +1,31 @@
+# This file is generated. Do not edit.
+# The configs are results of online config changes from UI/API/CLI.
+# To persist configs in this file, copy the content to etc/base.hocon.
+log {
+  console {}
+  file {}
+}
+rule_engine {
+  ignore_sys_message = true
+  jq_function_default_timeout = "10s"
+  rules {
+    rule_ip7l {
+      actions = []
+      description = ""
+      enable = true
+      metadata {created_at = 1763716280316, last_modified_at = 1763716280316}
+      sql = """~
+        SELECT *, clientid, connected_at FROM "client.connected"
+      ~"""
+    }
+    rule_xgci {
+      actions = []
+      description = ""
+      enable = true
+      metadata {created_at = 1763716300471, last_modified_at = 1763716300471}
+      sql = """~
+        SELECT *, connack FROM "client.connected"
+      ~"""
+    }
+  }
+}
