@@ -1,0 +1,274 @@
+@base <http://example.com/mapping/> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr:       <http://www.w3.org/ns/r2rml#> .
+@prefix rml:      <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql:       <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt:     <http://qudt.org/schema/qudt/> .
+@prefix unit:     <http://qudt.org/vocab/unit/> .
+@prefix mqtt4ssn: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#> .
+
+###################################
+# Logical source: Node-RED JSON file
+###################################
+<#Base>
+  rml:source "/work/data/in/connack.json" ;
+  rml:referenceFormulation ql:JSONPath ;
+  rml:iterator "$" .
+
+############################
+# MQTT ConnackPacket
+############################
+
+<#ConnackPacketMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/ConnackPacket_{timestamp}" ;
+    rr:class mqtt4ssn:ConnackPacket
+  ] ;
+
+  # Link to ConnackFixedHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnackFixedHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#ConnackFixedHeaderMapping> ] ;
+  ] ;
+  # Link to ConnackVariableHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnackVariableHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#ConnackVariableHeaderMapping> ] ;
+  ] .
+
+############################
+# MQTT ConnackFixedHeader
+############################
+
+<#ConnackFixedHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/ConnackFixedHeader_{timestamp}" ;
+    rr:class mqtt4ssn:ConnackFixedHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasControlPacketType ;
+    rr:objectMap [ rml:reference "connackPacket.fixedHeader.controlPacketType" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRemainingLength ;
+    rr:objectMap [ rml:reference "connackPacket.fixedHeader.remainingLength" ; rr:datatype xsd:byte ]
+  ] .
+
+############################
+# MQTT ConnackVariableHeader
+############################
+
+<#ConnackVariableHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/ConnackVariableHeader_{timestamp}" ;
+    rr:class mqtt4ssn:ConnackVariableHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSessionPresentFlag ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackFlags.sessionPresent" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnackReasonCode ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackReasonCode" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to ConnackProperties
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnackProperties ;
+    rr:objectMap [ rr:parentTriplesMap <#ConnackPropertiesMapping> ] ;
+  ] .
+
+<#ConnackPropertiesMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/ConnackProperties_{timestamp}" ;
+    rr:class mqtt4ssn:ConnackProperties
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPropertyLength ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.propertyLength" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSessionExpiryInterval ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sessionExpiryInterval" ; rr:datatype xsd:boolean ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasReceiveMaximum ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.receiveMaximum" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasMaximumQoS ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumQoS" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRetainAvailable ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.retainAvailable" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasMaximumPacketSize ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumPacketSize" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasAssignedClientIdentifier ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.assignedClientIdentifier" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasTopicAliasMaximum ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.topicAliasMaximum" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasReasonString ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.reasonString" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasUserProperty ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.userProperty" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasWildcardSubscriptionAvailable ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.wildcardSubscriptionAvailable" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubscriptionIdentifierAvailable ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.subscriptionIdentifierAvailable" ; rr:datatype xsd:string ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSharedSubscriptionAvailable ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sharedSubscriptionAvailable" ; rr:datatype xsd:string ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasServerKeepAlive ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.serverKeepAlive" ; rr:datatype xsd:string ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasResponseInformation ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.responseInformation" ; rr:datatype xsd:string ]
+  ] ;
+    rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasServerReference ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.serverReference" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasAuthenticationMethod ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.authenticationMethod" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasAuthenticationData ;
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.authenticationData" ; rr:datatype xsd:string ]
+  ] .
+
+############################
+# MQTT NetworkConnection
+############################
+
+<#NetworkConnectionMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/NetworkConnection_{network.connection}" ;
+    rr:class mqtt4ssn:NetworkConnection
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:usesTLS ;
+    rr:objectMap [ rml:reference "network.tls" ; rr:datatype xsd:boolean ]
+  ] ;
+
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isInitiatedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to NetworkParticipants
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] .
+
+############################
+# MQTT Broker
+############################
+
+<#BrokerMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Broker_{network.broker.brokerID}" ;
+    rr:class mqtt4ssn:Broker
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasHostAddress ;
+    rr:objectMap [ rml:reference "network.broker.hostAddress" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPortNumber ;
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to NetworkConnectionMapping
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isAcceptedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#NetworkConnectionMapping> ] ;
+  ] ;
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnectedClient ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to ConnackPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:sendsConnackPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#ConnackPacketMapping> ] ;
+  ] .
+
+############################
+# MQTT Client
+############################
+
+<#ClientMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Client_{network.client.clientID}" ;
+    rr:class mqtt4ssn:Client
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasClientID ;
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to Broker
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isConnectedToBroker ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  # Link to ConnackPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:receivesConnackPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#ConnackPacketMapping> ] ;
+  ] .

@@ -1,0 +1,232 @@
+@base <http://example.com/mapping/> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr:       <http://www.w3.org/ns/r2rml#> .
+@prefix rml:      <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql:       <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt:     <http://qudt.org/schema/qudt/> .
+@prefix unit:     <http://qudt.org/vocab/unit/> .
+@prefix mqtt4ssn: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#> .
+
+###################################
+# Logical source: Node-RED JSON file
+###################################
+<#Base>
+  rml:source "/work/data/in/suback.json" ;
+  rml:referenceFormulation ql:JSONPath ;
+  rml:iterator "$" .
+
+############################
+# MQTT SubackPacket
+############################
+
+<#SubackPacketMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/SubackPacket_{timestamp}" ;
+    rr:class mqtt4ssn:SubackPacket
+  ] ;
+
+  # Link to SubackFixedHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubackFixedHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackFixedHeaderMapping> ] ;
+  ] ;
+  # Link to SubackVariableHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubackVariableHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackVariableHeaderMapping> ] ;
+  ] .
+  # Link to SubackPayload  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubackPayload ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackPayloadMapping> ] ;
+  ] .
+
+############################
+# MQTT SubackFixedHeader
+############################
+
+<#SubackFixedHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/SubackFixedHeader_{timestamp}" ;
+    rr:class mqtt4ssn:SubackFixedHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasControlPacketType ;
+    rr:objectMap [ rml:reference "subackPacket.fixedHeader.controlPacketType" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRemainingLength ;
+    rr:objectMap [ rml:reference "subackPacket.fixedHeader.remainingLength" ; rr:datatype xsd:byte ]
+  ] .
+
+############################
+# MQTT SubackVariableHeader
+############################
+
+<#SubackVariableHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/SubackVariableHeader_{timestamp}" ;
+    rr:class mqtt4ssn:SubackVariableHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPacketIdentifier ;
+    rr:objectMap [ rml:reference "subackPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to SubackProperties
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubackProperties ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackPropertiesMapping> ] ;
+  ] .
+
+<#SubackPropertiesMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/SubackProperties_{timestamp}" ;
+    rr:class mqtt4ssn:SubackProperties
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPropertyLength ;
+    rr:objectMap [ rml:reference "subackPacket.variableHeader.subackProperties.propertyLength" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasReasonString ;
+    rr:objectMap [ rml:reference "subackPacket.variableHeader.subackProperties.reasonString" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasUserProperty ;
+    rr:objectMap [ rml:reference "subackPacket.variableHeader.subackProperties.userProperty" ; rr:datatype xsd:string ]
+  ] .
+
+############################
+# MQTT SubackPayload
+############################
+
+<#SubackPayloadMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/SubackPayload_{timestamp}" ;
+    rr:class mqtt4ssn:SubackPayload
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubackReasonCode ;
+    rr:objectMap [ rml:reference "subackPacket.variableHeader.subackReasonCode" ; rr:datatype xsd:integer ]
+  ] .
+
+############################
+# MQTT NetworkConnection
+############################
+
+<#NetworkConnectionMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/NetworkConnection_{network.connection}" ;
+    rr:class mqtt4ssn:NetworkConnection
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:usesTLS ;
+    rr:objectMap [ rml:reference "network.tls" ; rr:datatype xsd:boolean ]
+  ] ;
+
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isInitiatedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to NetworkParticipants
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] .
+
+############################
+# MQTT Broker
+############################
+
+<#BrokerMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Broker_{network.broker.brokerID}" ;
+    rr:class mqtt4ssn:Broker
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasHostAddress ;
+    rr:objectMap [ rml:reference "network.broker.hostAddress" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPortNumber ;
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to NetworkConnectionMapping
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isAcceptedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#NetworkConnectionMapping> ] ;
+  ] ;
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnectedClient ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to SubackPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:sendsSubackPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackPacketMapping> ] ;
+  ] .
+
+############################
+# MQTT Client
+############################
+
+<#ClientMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Client_{network.client.clientID}" ;
+    rr:class mqtt4ssn:Client
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasClientID ;
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to Broker
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isConnectedToBroker ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  # Link to SubackPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:receivesSubackPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#SubackPacketMapping> ] ;
+  ] .

@@ -1,0 +1,159 @@
+@base <http://example.com/mapping/> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr:       <http://www.w3.org/ns/r2rml#> .
+@prefix rml:      <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql:       <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt:     <http://qudt.org/schema/qudt/> .
+@prefix unit:     <http://qudt.org/vocab/unit/> .
+@prefix mqtt4ssn: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#> .
+
+###################################
+# Logical source: Node-RED JSON file
+###################################
+<#Base>
+  rml:source "/work/data/in/pingreq.json" ;
+  rml:referenceFormulation ql:JSONPath ;
+  rml:iterator "$" .
+
+############################
+# MQTT PingreqPacket
+############################
+
+<#PingreqPacketMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PingreqPacket_{timestamp}" ;
+    rr:class mqtt4ssn:PingreqPacket
+  ] ;
+
+  # Link to PingreqFixedHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPingreqFixedHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#PingreqFixedHeaderMapping> ] ;
+  ] .
+
+############################
+# MQTT PingreqFixedHeader
+############################
+
+<#PingreqFixedHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PingreqFixedHeader_{timestamp}" ;
+    rr:class mqtt4ssn:PingreqFixedHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasControlPacketType ;
+    rr:objectMap [ rml:reference "pingreqPacket.fixedHeader.controlPacketType" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRemainingLength ;
+    rr:objectMap [ rml:reference "pingreqPacket.fixedHeader.remainingLength" ; rr:datatype xsd:byte ]
+  ] .
+
+############################
+# MQTT NetworkConnection
+############################
+
+<#NetworkConnectionMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/NetworkConnection_{network.connection}" ;
+    rr:class mqtt4ssn:NetworkConnection
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:usesTLS ;
+    rr:objectMap [ rml:reference "network.tls" ; rr:datatype xsd:boolean ]
+  ] ;
+
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isInitiatedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to NetworkParticipants
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] .
+
+############################
+# MQTT Broker
+############################
+
+<#BrokerMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Broker_{network.broker.brokerID}" ;
+    rr:class mqtt4ssn:Broker
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasHostAddress ;
+    rr:objectMap [ rml:reference "network.broker.hostAddress" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPortNumber ;
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to NetworkConnectionMapping
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isAcceptedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#NetworkConnectionMapping> ] ;
+  ] ;
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnectedClient ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to PingreqPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:receivesPingreqPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PingreqPacketMapping> ] ;
+  ] .
+
+############################
+# MQTT Client
+############################
+
+<#ClientMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Client_{network.client.clientID}" ;
+    rr:class mqtt4ssn:Client
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasClientID ;
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to Broker
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isConnectedToBroker ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  # Link to PingreqPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:sendsPingreqPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PingreqPacketMapping> ] ;
+  ] .

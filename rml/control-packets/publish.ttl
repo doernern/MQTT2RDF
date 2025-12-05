@@ -1,0 +1,663 @@
+@base <http://example.com/mapping/> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix rr:       <http://www.w3.org/ns/r2rml#> .
+@prefix rml:      <http://semweb.mmlab.be/ns/rml#> .
+@prefix ql:       <http://semweb.mmlab.be/ns/ql#> .
+@prefix rdf:      <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xsd:      <http://www.w3.org/2001/XMLSchema#> .
+@prefix qudt:     <http://qudt.org/schema/qudt/> .
+@prefix unit:     <http://qudt.org/vocab/unit/> .
+@prefix sosa:     <http://www.w3.org/ns/sosa/> .
+@prefix ssn:      <http://www.w3.org/ns/ssn/> .
+@prefix mqtt4ssn: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#> .
+
+###################################
+# Logical source: Node-RED JSON file
+###################################
+<#Base>
+  rml:source "/work/data/in/publish.json" ;
+  rml:referenceFormulation ql:JSONPath ;
+  rml:iterator "$" .
+
+############################
+# MQTT PublishPacket
+############################
+
+<#PublishPacketMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PublishPacket_{timestamp}" ;
+    rr:class mqtt4ssn:PublishPacket
+  ] ;
+
+  # Link to PublishFixedHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPublishFixedHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishFixedHeaderMapping> ] ;
+  ] ;
+  # Link to PublishVariableHeader
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPublishVariableHeader ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishVariableHeaderMapping> ] ;
+  ] ;
+  # Link to PublishPayload
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPublishPayload ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPayloadMapping> ] ;
+  ] .
+
+############################
+# MQTT PublishFixedHeader
+############################
+
+<#PublishFixedHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PublishFixedHeader_{timestamp}" ;
+    rr:class mqtt4ssn:PublishFixedHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasControlPacketType ;
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.controlPacketType" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasDUPFlag ;
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.dup" ; rr:datatype xsd:boolean ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasQoSLevel ;
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.qos" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRetainFlag ;
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.retain" ; rr:datatype xsd:boolean ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasRemainingLength ;
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.remainingLength" ; rr:datatype xsd:byte ]
+  ] .
+
+############################
+# MQTT PublishVariableHeader
+############################
+
+<#PublishVariableHeaderMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PublishVariableHeader_{timestamp}" ;
+    rr:class mqtt4ssn:PublishVariableHeader
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPacketIdentifier ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to Topic
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasTopicName ;
+    rr:objectMap [ rr:parentTriplesMap <#TopicMapping> ] ;
+  ] ;
+
+  # Link to PublishProperties
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPublishProperties ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPropertiesMapping> ] ;
+  ] .
+
+<#PublishPropertiesMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PublishProperties_{timestamp}" ;
+    rr:class mqtt4ssn:PublishProperties
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPropertyLength ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.propertyLength" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPayloadFormatIndicator ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.payloadFormatIndicator" ; rr:datatype xsd:boolean ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasMessageExpiryInterval ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.messageExpiryInterval" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasTopicAlias ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.topicAlias" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasCorrelationData ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.correlationData" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasSubscriptionIdentifier ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.subscriptionIdentifier" ; rr:datatype xsd:integer ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasContentType ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.contentType" ; rr:datatype xsd:string ]
+  ] ;
+
+  # Link to UserProperty
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasUserProperty ;
+    rr:objectMap [
+      a rr:RefObjectMap ;
+      rr:parentTriplesMap <#UserPropertyMapping> ;
+      rr:joinCondition [
+        rr:child "timestamp" ;
+        rr:parent "timestamp"
+      ]
+    ]
+  ] ;
+  #Link to ResponseTopic
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasResponseTopic ;
+    rr:objectMap [ rr:parentTriplesMap <#ResponseTopicMapping> ] ;
+  ] .
+
+############################
+# MQTT PublishPayload
+############################
+
+<#PublishPayloadMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/PublishPayload_{timestamp}" ;
+    rr:class mqtt4ssn:PublishPayload
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPayloadContent ;
+    rr:objectMap [ rml:reference "publishPacket.payload.data" ; rr:datatype xsd:string ]
+  ] ;
+
+  # Link to ApplicationMessage
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasApplicationMessage ;
+    rr:objectMap [ rr:parentTriplesMap <#ApplicationMessageMapping> ] ;
+  ] .
+
+############################
+# MQTT ApplicationMessage
+############################
+
+<#ApplicationMessageMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/ApplicationMessage_{timestamp}" ;
+    rr:class mqtt4ssn:ApplicationMessage
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasContent ;
+    rr:objectMap [ rml:reference "publishPacket.payload.data" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasContentDelimiter ;
+    rr:objectMap [ rml:reference "publishPacket.payload.delimiter" ; rr:datatype xsd:string]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasContentType ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.contentType" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasEncoding ;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.payloadFormatIndicator" ; rr:datatype xsd:boolean ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasEncodedFields ;
+    rr:objectMap [ rml:reference "publishPacket.payload.encodedFields" ; rr:datatype rdf:List ]
+  ] ;
+
+  # Link to ObservationCollection
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:applicationMessageEncodesObservationCollection ;
+    rr:objectMap [ rr:parentTriplesMap <#ObservationCollectionMapping> ] ;
+  ] ;
+  # Link to ActuationCollection
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:applicationMessageEncodesActuationCollection ;
+    rr:objectMap [ rr:parentTriplesMap <#ActuationCollectionMapping> ] ;
+  ] .
+
+
+############################
+# Topic
+############################
+
+<#TopicMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Topic_{publishPacket.variableHeader.topicName}" ;
+    rr:class mqtt4ssn:Topic ;
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdfs:label;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.topicName" ; rr:datatype xsd:string ] ;
+  ] ;
+
+  # Link to FeatureOfInterest
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasFoISubject ;
+    rr:objectMap [ rr:parentTriplesMap <#FeatureOfInterestObservationMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasFoISubject ;
+    rr:objectMap [ rr:parentTriplesMap <#FeatureOfInterestActuationMapping> ] ;
+  ] .
+
+############################
+# UserProperty
+############################
+
+<#UserPropertyMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource [
+    rml:source "/work/data/in/publish.json" ;
+    rml:referenceFormulation ql:JSONPath ;
+    rml:iterator "$.publishPacket.variableHeader.publishProperties.userProperty[*]" ;
+  ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/UserProperty_{name}_{timestamp}" ;
+    rr:class mqtt4ssn:UserProperty
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:userPropertyName ;
+    rr:objectMap [ rml:reference "name" ; rr:datatype xsd:string ]
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:userPropertyValue ;
+    rr:objectMap [ rml:reference "value" ; rr:datatype xsd:string ]
+  ] .
+
+############################
+# ResponseTopic
+############################
+
+<#ResponseTopicMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Topic_{publishPacket.variableHeader.publishProperties.responseTopic}" ;
+    rr:class mqtt4ssn:Topic ;
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate rdfs:label;
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.responseTopic" ; rr:datatype xsd:string ] ;
+  ] .
+
+############################
+# Observation Collection
+############################
+
+<#ObservationCollectionMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.observationCollection[*]" ;
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://example.org/ObservationCollection_{FeatureOfInterest}_{StartTime}_{EndTime}" ;
+        rr:class sosa:ObservationCollection ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate sosa:StartTime ;
+        rr:objectMap [ rml:reference "StartTime" ; rr:datatype xsd:dateTime ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate sosa:EndTime ;
+        rr:objectMap [ rml:reference "EndTime" ; rr:datatype xsd:dateTime ] ;
+    ] ;
+
+    # Link to Oberservation
+    rr:predicateObjectMap [
+        rr:predicate sosa:hasMember ;
+        rr:objectMap [ rr:parentTriplesMap <#ObservationMapping> ] ;
+    ] ;
+
+    # Link to FeatureOfInterest
+        rr:predicateObjectMap [
+        rr:predicate sosa:hasFeatureOfInterest ;
+        rr:objectMap [ rr:parentTriplesMap <#FeatureOfInterestObservationMapping> ] ;
+    ] .
+
+############################
+# Observations
+############################
+
+<#ObservationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.observationCollection[*].Observation[*]" ;
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://example.org/Observation_{Property}" ;
+        rr:class sosa:Observation ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate sosa:hasSimpleResult ;
+        rr:objectMap [ rml:reference "Result" ] ;
+    ] ;
+
+    # Link to Property
+        rr:predicateObjectMap [
+        rr:predicate sosa:observedProperty ;
+        rr:objectMap [ rr:parentTriplesMap <#PropertyObservationMapping> ] ;
+    ] .
+
+############################
+# Actuation Collection
+############################
+
+<#ActuationCollectionMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.actuationCollection[*]" ;
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://example.org/ActuationCollection_{FeatureOfInterest}_{StartTime}_{EndTime}" ;
+        rr:class sosa:ActuationCollection ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate sosa:StartTime ;
+        rr:objectMap [ rml:reference "StartTime" ; rr:datatype xsd:dateTime ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate sosa:EndTime ;
+        rr:objectMap [ rml:reference "EndTime" ; rr:datatype xsd:dateTime ] ;
+    ] ;
+
+    # Link to Oberservation
+    rr:predicateObjectMap [
+        rr:predicate sosa:hasMember ;
+        rr:objectMap [ rr:parentTriplesMap <#ActuationMapping> ] ;
+    ] ;
+
+    # Link to FeatureOfInterest
+        rr:predicateObjectMap [
+        rr:predicate sosa:hasFeatureOfInterest ;
+        rr:objectMap [ rr:parentTriplesMap <#FeatureOfInterestActuationMapping> ] ;
+    ] .
+
+############################
+# Actuations
+############################
+
+<#ActuationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.actuationCollection[*].Actuation[*]" ;
+    ] ;
+
+    rr:subjectMap [
+        rr:template "http://example.org/Actuation_{Property}" ;
+        rr:class sosa:Actuation ;
+    ] ;
+
+    rr:predicateObjectMap [
+        rr:predicate sosa:hasSimpleResult ;
+        rr:objectMap [ rml:reference "Result" ] ;
+    ] ;
+
+    # Link to Property
+        rr:predicateObjectMap [
+        rr:predicate sosa:observedProperty ;
+        rr:objectMap [ rr:parentTriplesMap <#PropertyActuationMapping> ] ;
+    ] .
+
+############################
+# Feature of Interest
+############################
+
+<#FeatureOfInterestObservationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.observationCollection[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/FeatureOfInterest_{FeatureOfInterest}" ;
+    rr:class sosa:FeatureOfInterest ;
+  ] .
+
+<#FeatureOfInterestActuationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.actuationCollection[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/FeatureOfInterest_{FeatureOfInterest}" ;
+    rr:class sosa:FeatureOfInterest ;
+  ] .
+
+############################
+# Property
+############################
+
+<#PropertyObservationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.observationCollection[*].Observation[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Property_{Property}" ;
+    rr:class sosa:Property ;
+  ] .
+
+<#PropertyActuationMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.actuationCollection[*].Actuation[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Property_{Property}" ;
+    rr:class sosa:Property ;
+  ] .
+
+############################
+# SOSA System 
+############################
+
+<#SensorMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.observationCollection[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Sensor_{Sensor}" ;
+    rr:class sosa:Sensor ;
+  ] ;
+
+  # Link to Topic
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:observesTopic ;
+    rr:objectMap [ rr:parentTriplesMap <#TopicMapping> ] ;
+  ] .
+
+<#ActuatorMapping>
+    a rr:TriplesMap ;
+    rml:logicalSource [
+        rml:source "/work/data/in/publish.json" ;
+        rml:referenceFormulation ql:JSONPath ;
+        rml:iterator "$.actuationCollection[*]" ;
+    ] ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Actuator_{Actuator}" ;
+    rr:class sosa:Actuator ;
+  ] ;
+
+  # Link to Topic
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:listensToTopic ;
+    rr:objectMap [ rr:parentTriplesMap <#TopicMapping> ] ;
+  ] .
+
+############################
+# MQTT NetworkConnection
+############################
+
+<#NetworkConnectionMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/NetworkConnection_{network.connection}" ;
+    rr:class mqtt4ssn:NetworkConnection
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:usesTLS ;
+    rr:objectMap [ rml:reference "network.tls" ; rr:datatype xsd:boolean ]
+  ] ;
+
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isInitiatedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to NetworkParticipants
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasParticipant ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] .
+
+############################
+# MQTT Broker
+############################
+
+<#BrokerMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Broker_{network.broker.brokerID}" ;
+    rr:class mqtt4ssn:Broker
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasHostAddress ;
+    rr:objectMap [ rml:reference "network.broker.hostAddress" ; rr:datatype xsd:string ]
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasPortNumber ;
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to NetworkConnection
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isAcceptedBy ;
+    rr:objectMap [ rr:parentTriplesMap <#NetworkConnectionMapping> ] ;
+  ] ;
+  # Link to Client
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasConnectedClient ;
+    rr:objectMap [ rr:parentTriplesMap <#ClientMapping> ] ;
+  ] ;
+  # Link to PublishPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:receivesPublishPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPacketMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:sendsPublishPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPacketMapping> ] ;
+  ] .
+
+############################
+# MQTT Client
+############################
+
+<#ClientMapping>
+  a rr:TriplesMap ;
+  rml:logicalSource <#Base> ;
+
+  rr:subjectMap [
+    rr:template "http://example.org/Client_{network.client.clientID}" ;
+    rr:class mqtt4ssn:Client
+  ] ;
+
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hasClientID ;
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+  ] ;
+
+  # Link to Broker
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:isConnectedToBroker ;
+    rr:objectMap [ rr:parentTriplesMap <#BrokerMapping> ] ;
+  ] ;
+  # Link to PublishPacket
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:receivesPublishPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPacketMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:sendsPublishPacket ;
+    rr:objectMap [ rr:parentTriplesMap <#PublishPacketMapping> ] ;
+  ] ;
+    # Link to SOSA System
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hosts ;
+    rr:objectMap [ rr:parentTriplesMap <#SensorMapping> ] ;
+  ] ;
+  rr:predicateObjectMap [
+    rr:predicate mqtt4ssn:hosts ;
+    rr:objectMap [ rr:parentTriplesMap <#ActuatorMapping> ] ;
+  ] .
