@@ -206,19 +206,19 @@
   ] ;
 
   rr:predicateObjectMap [
-    rr:predicate mqtt4ssn:hasContent ;
+    rr:predicate mqtt4ssn:hasApplicationContent ;
     rr:objectMap [ rml:reference "publishPacket.payload.data" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate mqtt4ssn:hasContentDelimiter ;
+    rr:predicate mqtt4ssn:hasContentApplicationDelimiter ;
     rr:objectMap [ rml:reference "publishPacket.payload.delimiter" ; rr:datatype xsd:string]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate mqtt4ssn:hasContentType ;
+    rr:predicate mqtt4ssn:hasApplicationContentType ;
     rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.contentType" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
-    rr:predicate mqtt4ssn:hasEncoding ;
+    rr:predicate mqtt4ssn:hasApplicationEncoding ;
     rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.payloadFormatIndicator" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
