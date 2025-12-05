@@ -1,0 +1,2277 @@
+[
+    {
+        "id": "3fc4c5f12c75a924",
+        "type": "tab",
+        "label": "Aedes",
+        "disabled": true,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "06f1f8169210d459",
+        "type": "tab",
+        "label": "MQTT Client",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "bd14a179316b9057",
+        "type": "tab",
+        "label": "EMQX",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "broker1",
+        "type": "mqtt-broker",
+        "name": "Local Mosquitto",
+        "broker": "host.docker.internal",
+        "port": "1883",
+        "clientid": "Client 1",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "5",
+        "keepalive": "15",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "birth",
+        "birthQos": "2",
+        "birthRetain": "true",
+        "birthPayload": "birth message",
+        "birthMsg": {
+            "contentType": "text/plain"
+        },
+        "closeTopic": "close",
+        "closeQos": "2",
+        "closeRetain": "true",
+        "closePayload": "close message",
+        "closeMsg": {
+            "contentType": "text/plain"
+        },
+        "willTopic": "will",
+        "willQos": "2",
+        "willRetain": "true",
+        "willPayload": "will message",
+        "willMsg": {
+            "contentType": "text/plain",
+            "delay": "60"
+        },
+        "userProps": "",
+        "sessionExpiry": "10"
+    },
+    {
+        "id": "1950206633b62a22",
+        "type": "aedes broker",
+        "z": "3fc4c5f12c75a924",
+        "name": "",
+        "mqtt_port": "1884",
+        "mqtt_ws_bind": "port",
+        "mqtt_ws_port": "",
+        "mqtt_ws_path": "",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "persistence_bind": "memory",
+        "dburl": "",
+        "usetls": false,
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "09f53df8f4e68a1b",
+                "982316a40f25bb7c"
+            ],
+            [
+                "e2d9723fa945c0c8",
+                "019f65584d3fba98"
+            ]
+        ]
+    },
+    {
+        "id": "09f53df8f4e68a1b",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "Aedes events",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 460,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "e2d9723fa945c0c8",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "Aedes publish",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 480,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "982316a40f25bb7c",
+        "type": "switch",
+        "z": "3fc4c5f12c75a924",
+        "name": "MQTT packet type",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "client",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "clientReady",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "subscribe",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "unsubscribe",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "clientDisconnect",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 5,
+        "x": 470,
+        "y": 340,
+        "wires": [
+            [
+                "139ea716302bb409"
+            ],
+            [
+                "e85971089b681a76"
+            ],
+            [
+                "1989cc2123e89617"
+            ],
+            [
+                "0644a78e5b83ae86"
+            ],
+            [
+                "467d84d74ee0f7d1"
+            ]
+        ]
+    },
+    {
+        "id": "dfd50f42bb9aaac8",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "CONNECT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "622d41e52cb2442d",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "CONNACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "e85971089b681a76",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "CONNACK",
+        "func": "let p = msg.payload;   \nlet c = msg.payload.client;\nlet vh = p && p.connack ? p.connack : {};         \nlet props = vh.properties || {};       \n\nmsg = {};\n\nmsg.payload = {\n    timestamp: Date.now(),\n    path: \"/data/share/in/connack.json\" ,\n    \n    network: {\n        connection: String(c.conn) ?? null ,\n        tls: null,\n\n        broker: {\n            brokerID: c.broker.id  ?? null ,\n            hostAddress: null,\n            portNumber: null\n        },\n\n        client: {\n            clientID: c.id ?? null ,\n        }\n    },\n\n    connackPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNACK\",\n            reserved: null,\n            remainingLength: c?._parser?.settings?.length ?? null \n        },\n\n        variableHeader: {\n            connackFlags: {\n                reserved: null,\n                sessionPresent: null\n            },\n\n            connackReasonCode: null,\n\n            connackProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: null,\n                receiveMaximum: null,\n                maximumQoS: null,\n                retainAvailable: null,\n                maximumPacketSize: null,\n                assignedClientIdentifier: null,\n                topicAliasMaximum: null,\n                reasonString: null,\n                userProperty: null,\n                wildcardSubscriptionAvailable: null,\n                subscriptionIdentifierAvailable: null,\n                sharedSubscriptionAvailable: null,\n                serverKeepAlive: null,\n                responseInformation: null,\n                serverReference: null,\n                authenticationMethod: null,\n                authenticationData: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 220,
+        "wires": [
+            [
+                "622d41e52cb2442d",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "137ca8f2ac2f1fcf",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "UNSUBSCRIBE",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "032467bc8b5ad658",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "DISCONNECT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "cb0be866dc859590",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "SUBSCRIBE",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "1989cc2123e89617",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "SUBSCRIBE",
+        "func": "let pkt = msg.payload || {};\nlet c = msg.payload.client;\nlet props = pkt.properties || {};\n\nmsg = {};\n\nmsg.payload = {\n    timestamp: Date.now(),\n    path: \"/data/share/in/subscribe.json\" ,\n\n    network: {\n        connection: String(c.conn) ?? null,\n        tls: null ,\n        \n        broker: {\n            brokerID: c.broker.id ?? null,\n            hostAddress: null ,\n            portNumber: null\n        } ,\n        \n        client: {\n            clientID: c.id ?? null,\n        }\n    } ,\n\n    subscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"SUBSCRIBE\",\n            reserved: null,\n            remainingLength: c._parser.settings.length ?? null \n        },\n\n        variableHeader: {\n            packetIdentifier: c._nextId ?? null,\n\n            subscribeProperties: {\n                propertyLength: props.propertyLength ?? null,\n                subscriptionIdentifier: props.subscriptionIdentifier ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: null,\n            subscriptionOption: {\n                qos: null ,\n                noLocal: null ,\n                retainAsPublished: null ,\n                retainHandling: null ,\n                reserved: null\n            }\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 320,
+        "wires": [
+            [
+                "cb0be866dc859590",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "467d84d74ee0f7d1",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "DISCONNECT",
+        "func": "let c = msg.payload.client;\n\nmsg = {};\n\nmsg.payload = {\n    timestamp: Date.now(),\n    path: \"/data/share/in/disconnect.json\" ,\n\n    network: {\n        connection: String(c.conn) ?? null,\n        tls: null ,\n        \n        broker: {\n            brokerID: c.broker.id ?? null ,\n            hostAddress: null ,\n            portNumber: null\n        } ,\n        \n        client: {\n            clientID: c.id ?? null ,\n        }\n    } ,\n\n    disconnectPacket: {\n        fixedHeader: {\n            controlPacketType: \"DISCONNECT\",\n            reserved: null,\n            remainingLength: null\n        },\n\n        variableHeader: {\n            disconnectReasonCode: null,\n\n            disconnectProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: null,\n                reasonString: null,\n                userProperty: null,\n                serverReference: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 520,
+        "wires": [
+            [
+                "032467bc8b5ad658",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "0644a78e5b83ae86",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "UNSUBSCRIBE",
+        "func": "let pkt = msg.payload || {};\nlet c = msg.payload.client;\n\nmsg = {};\n\nmsg.payload = {\n    timestamp: Date.now(),\n    path: \"/data/share/in/unsubscribe.json\" ,\n\n    network: {\n        connection: String(c.conn) ?? null,\n        tls: null ,\n        \n        broker: {\n            brokerID: c.broker.id ?? null,\n            hostAddress: null ,\n            portNumber: null\n        } ,\n        \n        client: {\n            clientID: c.id ?? null,\n        }\n    } ,\n\n    unsubscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"UNSUBSCRIBE\",\n            reserved: null,\n            remainingLength: pkt.length ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            unsubscribeProperties: {\n                propertyLength: null,\n                userProperty: null\n            }\n        },\n\n        payload: {\n            topicFilter: null\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 740,
+        "y": 420,
+        "wires": [
+            [
+                "137ca8f2ac2f1fcf",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "04e3c114c781cab2",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBLISH",
+        "func": "let c = msg.payload.client;\n\nreturn {\n    timestamp: Date.now(),\n    path: \"/data/share/in/publish.json\" ,\n\n    network: {\n        connection: String(c.conn) ?? null,\n        tls: null ,\n        \n        broker: {\n            brokerID: c.broker.id ?? null,\n            hostAddress: null ,\n            portNumber: null\n        } ,\n        \n        client: {\n            clientID: c.id ?? null,\n        }\n    } ,\n\n    publishPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBLISH\" ,\n            flags: {\n                dup: msg.payload.packet.dup ?? null,\n                qos: msg.payload.packet.qos ?? null,\n                retain: msg.payload.packet.retain ?? null\n            },\n            remainingLength: msg.payload.packet.length ?? null \n        },\n\n        variableHeader: {\n            topicName: msg.payload.packet.topic ?? null ,\n            packetIdentifier: msg.payload.client._nextId ?? null,\n\n            publishProperties: {\n                propertyLength: null,\n                payloadFormatIndicator: null,\n                messageExpiryInterval: null,\n                topicAlias: null,\n                responseTopic: null,\n                correlationData: null,\n                userProperty: null,\n                subscriptionIdentifier: null,\n                contentType: null\n            }\n        },\n\n        payload: {\n            data: msg.payload.packet.payload ?? null \n        }\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 620,
+        "wires": [
+            [
+                "3091c529ca4c663e"
+            ]
+        ]
+    },
+    {
+        "id": "34aa53be11793740",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBLISH",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1140,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "882842e53bee6342",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBACK",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"puback\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n            reasonCode: pkt.reasonCode ?? null,\n\n            pubackProperties: {\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 720,
+        "wires": [
+            [
+                "6739084ad12d68b3"
+            ]
+        ]
+    },
+    {
+        "id": "6739084ad12d68b3",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBACK",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "ed71a8346f4763a4",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBREC",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pubrecPacket: {\n        fixedHeader: {\n            controlPacketType: \"pubrec\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n            reasonCode: pkt.reasonCode ?? null,\n\n            pubrecProperties: {\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 820,
+        "wires": [
+            [
+                "e72e21e17a8b544a"
+            ]
+        ]
+    },
+    {
+        "id": "e72e21e17a8b544a",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBREC",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "25a7b1dde01affaa",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBREL",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pubrelPacket: {\n        fixedHeader: {\n            controlPacketType: \"pubrel\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n            reasonCode: pkt.reasonCode ?? null,\n\n            pubrelProperties: {\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 920,
+        "wires": [
+            [
+                "ede37a0b7cfa0b27"
+            ]
+        ]
+    },
+    {
+        "id": "ede37a0b7cfa0b27",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBREL",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 980,
+        "wires": []
+    },
+    {
+        "id": "9c6c2951a1da7882",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBCOMP",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pubcompPacket: {\n        fixedHeader: {\n            controlPacketType: \"pubcomp\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n            reasonCode: pkt.reasonCode ?? null,\n\n            pubcompProperties: {\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1020,
+        "wires": [
+            [
+                "85c30642004ffa22"
+            ]
+        ]
+    },
+    {
+        "id": "85c30642004ffa22",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBCOMP",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 1080,
+        "wires": []
+    },
+    {
+        "id": "cc1df33c3d8875bd",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PINGREQ",
+        "func": "return {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pingreqPacket: {\n        fixedHeader: {\n            controlPacketType: \"pingreq\",\n            remainingLength: 0\n        },\n        variableHeader: {},\n        payload: {}\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1120,
+        "wires": [
+            [
+                "1ac712535fc36e43"
+            ]
+        ]
+    },
+    {
+        "id": "1ac712535fc36e43",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PINGREQ",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "125707f5f3b72474",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "PINGRESP",
+        "func": "return {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    pingrespPacket: {\n        fixedHeader: {\n            controlPacketType: \"pingresp\",\n            remainingLength: 0\n        },\n        variableHeader: {},\n        payload: {}\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1220,
+        "wires": [
+            [
+                "ca2a67da524fc862"
+            ]
+        ]
+    },
+    {
+        "id": "ca2a67da524fc862",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PINGRESP",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 1280,
+        "wires": []
+    },
+    {
+        "id": "4bec732990fae412",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "AUTH",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    authPacket: {\n        fixedHeader: {\n            controlPacketType: \"auth\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            reasonCode: pkt.reasonCode ?? null,\n\n            authProperties: {\n                authenticationMethod: props.authenticationMethod ?? null,\n                authenticationData: props.authenticationData ?? null,\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        },\n\n        payload: { }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 710,
+        "y": 1320,
+        "wires": [
+            [
+                "ec2b510ab996e258"
+            ]
+        ]
+    },
+    {
+        "id": "ec2b510ab996e258",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "AUTH",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 710,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "417398810327ac32",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "SUBACK",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    subackPacket: {\n        fixedHeader: {\n            controlPacketType: \"suback\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n\n            subackProperties: {\n                propertyLength: props.propertyLength ?? null,\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        },\n\n        payload: {\n            reasonCodes: pkt.granted || []     // array of reason codes\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 720,
+        "y": 1420,
+        "wires": [
+            [
+                "cc4176585e08789e"
+            ]
+        ]
+    },
+    {
+        "id": "cc4176585e08789e",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "SUBACK",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 720,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "3487919006c1103d",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "UNSUBACK",
+        "func": "let pkt = msg.payload || {};\nlet props = pkt.properties || {};\n\nreturn {\n    timestamp: Date.now(),\n    id: msg._msgid,\n\n    unsubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"unsuback\",\n            remainingLength: pkt.length || null\n        },\n\n        variableHeader: {\n            packetIdentifier: pkt.messageId ?? null,\n\n            unsubackProperties: {\n                propertyLength: props.propertyLength ?? null,\n                reasonString: props.reasonString ?? null,\n                userProperty: props.userProperties ?? null\n            }\n        },\n\n        payload: {\n            reasonCodes: pkt.granted || []\n        }\n    }\n};\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 1520,
+        "wires": [
+            [
+                "1769f948bbb688ab"
+            ]
+        ]
+    },
+    {
+        "id": "1769f948bbb688ab",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "UNSUBACK",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "019f65584d3fba98",
+        "type": "switch",
+        "z": "3fc4c5f12c75a924",
+        "name": "MQTT packet type",
+        "property": "payload.client",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nnull"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 490,
+        "y": 620,
+        "wires": [
+            [
+                "04e3c114c781cab2"
+            ]
+        ]
+    },
+    {
+        "id": "3091c529ca4c663e",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "Set RAW payload",
+        "func": "msg.payload = msg.publishPacket.payload.data ;\n\n// Ensure msg.raw is a plain string (handles Buffer/objects)\nif (typeof msg.payload === 'string') {\n  msg.publishPacket.payload.data = msg.payload;\n} else if (Buffer.isBuffer(msg.payload)) {\n  msg.publishPacket.payload.data = msg.payload.toString('utf8');\n} else {\n  msg.publishPacket.payload.data = JSON.stringify(msg.payload);\n}\n\nmsg.payload = msg.publishPacket.payload.data\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 930,
+        "y": 620,
+        "wires": [
+            [
+                "eae8553296a973e2"
+            ]
+        ]
+    },
+    {
+        "id": "eae8553296a973e2",
+        "type": "csv",
+        "z": "3fc4c5f12c75a924",
+        "name": "CSV→JSON",
+        "spec": "rfc",
+        "sep": ";",
+        "hdrin": true,
+        "hdrout": "all",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": true,
+        "include_null_values": true,
+        "x": 1150,
+        "y": 620,
+        "wires": [
+            [
+                "34aa53be11793740",
+                "39c1192dc0e48996"
+            ]
+        ]
+    },
+    {
+        "id": "7159fbf0cdd0cfb4",
+        "type": "file",
+        "z": "3fc4c5f12c75a924",
+        "name": "Save JSON for RMLMapper",
+        "filename": "payload.path",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 2000,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "139ea716302bb409",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "CONNECT",
+        "func": "let c = msg.payload.client;\nlet p = c ? c._parser : {};\n\nmsg = {};\n\nmsg.payload = {\n    timestamp: Date.now(),\n    path: \"/data/share/in/connect.json\" ,\n    \n    network: {\n        connection: String(c.conn) ?? null ,\n        tls: null ,\n        \n        broker: {\n            brokerID: c.broker.id  ?? null ,\n            hostAddress: null ,\n            portNumber: null\n        } ,\n        \n        client: {\n            clientID: c.id  ?? null ,\n        }\n    } ,\n\n    connectPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNECT\",\n            reserved: null,\n            remainingLength: p.settings?.length ?? null \n        },\n\n        variableHeader: {\n            protocolName: p.settings?.protocolId  ?? null ,\n            protocolVersion: p.settings?.protocolVersion  ?? null ,\n\n            connectFlags: {\n                userNameFlag:  !!p.settings?.username ?? null ,\n                passwordFlag:  !!p.settings?.password ?? null ,\n                willRetain:    p.settings?.will?.retain ?? null ,\n                willQoS:       p.settings?.will?.qos ?? null ,\n                willFlag:      !!p.settings?.will ?? null ,\n                cleanStart:    p.settings?.clean ?? null ,\n                reserved: null\n            },\n\n            keepAlive: p.settings?.keepalive ?? null ,\n\n            connectProperties: {\n                propertyLength:             null ,\n                sessionExpiryInterval:      null ,\n                receiveMaximum:             null ,\n                maximumPacketSize:          null ,\n                topicAliasMaximum:          null ,\n                requestResponseInformation: null ,\n                requestProblemInformation:  null ,\n                userProperty:               null ,\n                authenticationMethod:       null ,\n                authenticationData:         null \n            }\n        },\n\n        payload: {\n            clientID: c?.id ?? null ,\n\n            willProperties: {\n                propertyLength:            null ,\n                willDelayInterval:         null ,\n                payloadFormatIndicator:    null ,\n                messageExpiryInterval:     null ,\n                contentType:               null ,\n                responseTopic:             null ,\n                correlationData:           null ,\n                userProperty:              null \n            },\n\n            willTopic: null ,\n            willPayload:   null ,\n            userName:      null ,\n            password:      null \n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 730,
+        "y": 120,
+        "wires": [
+            [
+                "dfd50f42bb9aaac8",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "39c1192dc0e48996",
+        "type": "change",
+        "z": "3fc4c5f12c75a924",
+        "name": "Structure Observations + Meta",
+        "rules": [
+            {
+                "t": "set",
+                "p": "observationCollection",
+                "pt": "msg",
+                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(Job_Start_ZS),\t   \"EndTime\": $string(Job_Ende_ZS),\t   \"Observation\": [\t       {\t           \"Property\":\"Griffpunkt_X\",\t           \"Result\":$string(Griffpunkt_X)\t           },\t       {\t           \"Property\":\"Griffpunkt_Y\",\t           \"Result\":$string(Griffpunkt_Y)\t           },\t       {\t           \"Property\":\"Griffpunkt_Z\",\t           \"Result\":$string(Griffpunkt_Z)\t           },\t       {\t           \"Property\":\"Korrekturwert_X\",\t           \"Result\":$string(Korrekturwert_X)\t           },\t       {\t           \"Property\":\"Korrekturwert_Y\",\t           \"Result\":$string(Korrekturwert_Y)\t           }\t  ]\t}\t",
+                "tot": "jsonata"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "columns",
+                "pt": "msg",
+                "to": "publishPacket.payload.encodedFields",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1450,
+        "y": 620,
+        "wires": [
+            [
+                "2d35bd1f6a7fc374",
+                "b34946bc7cca1990"
+            ]
+        ]
+    },
+    {
+        "id": "2d35bd1f6a7fc374",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBLISH",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1460,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "b34946bc7cca1990",
+        "type": "function",
+        "z": "3fc4c5f12c75a924",
+        "name": "Payload JSON",
+        "func": "const payload = msg;\nmsg = {};\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1740,
+        "y": 620,
+        "wires": [
+            [
+                "9f97d05b4999e604",
+                "7159fbf0cdd0cfb4"
+            ]
+        ]
+    },
+    {
+        "id": "9f97d05b4999e604",
+        "type": "debug",
+        "z": "3fc4c5f12c75a924",
+        "name": "PUBLISH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1740,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "30c20abaf381657f",
+        "type": "comment",
+        "z": "3fc4c5f12c75a924",
+        "name": "Adapt Data Type",
+        "info": "",
+        "x": 1160,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "b4f08489aece20d8",
+        "type": "comment",
+        "z": "3fc4c5f12c75a924",
+        "name": "Adapt Data Structure",
+        "info": "",
+        "x": 1460,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "2821df5fc7740253",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "name": "Broker / QoS 2 / Retain 1 / CSV",
+        "topic": "Test",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "response/topic",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": " CorrelationData",
+        "expiry": "22",
+        "broker": "broker1",
+        "x": 670,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "7cabd52ba8bfe2cf",
+        "type": "inject",
+        "z": "06f1f8169210d459",
+        "name": "Simulate Client 1",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 60,
+        "wires": [
+            [
+                "3f639f062747f5b9"
+            ]
+        ]
+    },
+    {
+        "id": "3f639f062747f5b9",
+        "type": "template",
+        "z": "06f1f8169210d459",
+        "name": "CSV Payload",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "\"Job_Start_ZS\";\"Job_Ende_ZS\";\"Griffpunkt_X\";\"Griffpunkt_Y\";\"Griffpunkt_Z\";\"Korrekturwert_X\";\"Korrekturwert_Y\";\"RFID\";\n20240928235844;20240928235953;0;1;1;A;10;00140;\n20240928235888;20240928235960;0;2;2;B;10;00140",
+        "output": "str",
+        "x": 390,
+        "y": 60,
+        "wires": [
+            [
+                "2821df5fc7740253",
+                "ef5229fd9af3bb25",
+                "6afa3144331bca45",
+                "1fbb18c0c058b5dc",
+                "6fd1736003b1eb7d",
+                "01d28c3d5c3881ae"
+            ]
+        ]
+    },
+    {
+        "id": "6fd1736003b1eb7d",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "d": true,
+        "name": "Broker / QoS 0 / Retain 1 / CSV",
+        "topic": "Test",
+        "qos": "0",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": "",
+        "expiry": "",
+        "broker": "broker1",
+        "x": 670,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "1fbb18c0c058b5dc",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "d": true,
+        "name": "Broker / QoS 1 / Retain 1 / CSV",
+        "topic": "Test",
+        "qos": "1",
+        "retain": "true",
+        "respTopic": "",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": "",
+        "expiry": "",
+        "broker": "broker1",
+        "x": 670,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "6afa3144331bca45",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "d": true,
+        "name": "Broker / QoS 1 / Retain 0 / CSV",
+        "topic": "Test",
+        "qos": "1",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": "",
+        "expiry": "",
+        "broker": "broker1",
+        "x": 970,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "ef5229fd9af3bb25",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "d": true,
+        "name": "Broker / QoS 2 / Retain 0 / CSV",
+        "topic": "Test",
+        "qos": "2",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": "",
+        "expiry": "",
+        "broker": "broker1",
+        "x": 970,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "01d28c3d5c3881ae",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "d": true,
+        "name": "Broker / QoS 0 / Retain 0 / CSV",
+        "topic": "Test",
+        "qos": "0",
+        "retain": "false",
+        "respTopic": "",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": "",
+        "expiry": "",
+        "broker": "broker1",
+        "x": 970,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "6655e65b5b5b23a7",
+        "type": "mqtt in",
+        "z": "06f1f8169210d459",
+        "name": "",
+        "topic": "actuator",
+        "qos": "2",
+        "datatype": "auto-detect",
+        "broker": "broker1",
+        "nl": false,
+        "rap": true,
+        "rh": 0,
+        "inputs": 0,
+        "x": 140,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "87810f29254d1299",
+        "type": "inject",
+        "z": "06f1f8169210d459",
+        "name": "Simulate Client 1",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 500,
+        "wires": [
+            [
+                "720191d0d61f2231"
+            ]
+        ]
+    },
+    {
+        "id": "720191d0d61f2231",
+        "type": "template",
+        "z": "06f1f8169210d459",
+        "name": "CSV Payload",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "RFID;JobStart;JobEnd;GripPoint_X;GripPoint_Y;GripPoint_Z;Sensor;Actuator\nRFID_87A3F1;2025-12-03T09:15:02.120Z;2025-12-03T09:15:02.520Z;152.34;88.10;34.55;Sensor_37b;Actuator_20a\nRFID_87A3F2;2025-12-03T09:15:05.000Z;2025-12-03T09:15:05.410Z;151.90;87.95;34.60;Sensor_37b;Actuator_20a\nRFID_87A3F3;2025-12-03T09:15:08.210Z;2025-12-03T09:15:08.640Z;153.05;88.40;34.48;Sensor_37b;Actuator_20a",
+        "output": "str",
+        "x": 390,
+        "y": 500,
+        "wires": [
+            [
+                "0f0ad79860fd7080"
+            ]
+        ]
+    },
+    {
+        "id": "cb688359e2a10c37",
+        "type": "inject",
+        "z": "06f1f8169210d459",
+        "name": "Simulate Client 1",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "x": 180,
+        "y": 580,
+        "wires": [
+            [
+                "55047bf24765447d"
+            ]
+        ]
+    },
+    {
+        "id": "55047bf24765447d",
+        "type": "template",
+        "z": "06f1f8169210d459",
+        "name": "CSV Payload",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "plain",
+        "template": "RFID;JobStart;JobEnd;Correction_X;Correction_Y;Correction_Z;Sensor;Actuator\nRFID_87A3F1;2025-12-03T09:15:02.120Z;2025-12-03T09:15:02.520Z;-0.44;-0.15;+0.10;Sensor1;Actuator1;Sensor_37b;Actuator_20a\nRFID_87A3F2;2025-12-03T09:15:05.000Z;2025-12-03T09:15:05.410Z;-0.10;-0.05;+0.60;Sensor1;Actuator1;Sensor_37b;Actuator_20a\nRFID_87A3F3;2025-12-03T09:15:08.210Z;2025-12-03T09:15:08.640Z;+0.65;+0.30;+0.15;Sensor1;Actuator1;Sensor_37b;Actuator_20a",
+        "output": "str",
+        "x": 390,
+        "y": 580,
+        "wires": [
+            [
+                "644869caea526090"
+            ]
+        ]
+    },
+    {
+        "id": "0f0ad79860fd7080",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "name": "Broker / QoS 2 / Retain 1 / CSV",
+        "topic": "sensor",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "response/topic",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": " CorrelationData",
+        "expiry": "22",
+        "broker": "broker1",
+        "x": 670,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "644869caea526090",
+        "type": "mqtt out",
+        "z": "06f1f8169210d459",
+        "name": "Broker / QoS 2 / Retain 1 / CSV",
+        "topic": "actuator",
+        "qos": "2",
+        "retain": "true",
+        "respTopic": "response/topic",
+        "contentType": "text/csv",
+        "userProps": "{\"payloadFormatIndicator\":true,\"delimiter\":\";\"}",
+        "correl": " CorrelationData",
+        "expiry": "22",
+        "broker": "broker1",
+        "x": 670,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "httpin",
+        "type": "http in",
+        "z": "bd14a179316b9057",
+        "name": "EMQX Events In",
+        "url": "/emqx/events",
+        "method": "post",
+        "upload": false,
+        "skipBodyParsing": false,
+        "swaggerDoc": "",
+        "x": 360,
+        "y": 120,
+        "wires": [
+            [
+                "97ca0ffd6457f6ec",
+                "switch",
+                "f57a30df8259c239"
+            ]
+        ]
+    },
+    {
+        "id": "switch",
+        "type": "switch",
+        "z": "bd14a179316b9057",
+        "name": "Control Packet Type",
+        "property": "payload.event",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "client.check_authn_complete",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.connected",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.disconnected",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.connack",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.check_authz_complete",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "session.subscribed",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "session.unsubscribed",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "message.delivered",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "message.acked",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.check_ping",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "client.keepalive",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "message.publish",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "message.dropped",
+                "vt": "str"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 13,
+        "x": 360,
+        "y": 480,
+        "wires": [
+            [
+                "074934dba9111a79"
+            ],
+            [
+                "114bc3f73916dcd1"
+            ],
+            [
+                "45399727dded0224"
+            ],
+            [
+                "48c5fed0e5f300f5"
+            ],
+            [
+                "074934dba9111a79"
+            ],
+            [
+                "89e98a4fbc452ae1"
+            ],
+            [
+                "afd5fd5a62955b88"
+            ],
+            [
+                "6e37994a9d321ff7",
+                "f3229f753b385c50",
+                "df24496853482457",
+                "7640cd5ecdafef9c"
+            ],
+            [],
+            [],
+            [],
+            [
+                "8ac2f9cfd573877d"
+            ],
+            []
+        ]
+    },
+    {
+        "id": "97ca0ffd6457f6ec",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "EMQX Events",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.event",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 360,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "51e9b23a2a15a82d",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "CONNECT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "bc6a7b2e1556cd69",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "CONNACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "26899d9ca3f6cb28",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "UNSUBSCRIBE",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "1864c5b39f56ba48",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "SUBSCRIBE",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 180,
+        "wires": []
+    },
+    {
+        "id": "89e98a4fbc452ae1",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "SUBSCRIBE",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/subscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    subscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"SUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n\n            subscribeProperties: {\n                propertyLength: null,\n                subscriptionIdentifier: msg.payload.sub_props[\"Subscription-Identifier\"] ?? null,\n                userProperty: msg.payload.sub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null,\n            subscriptionOption: {\n                qos: msg.payload.qos ?? null ,\n                noLocal: null ,\n                retainAsPublished: null ,\n                retainHandling: null ,\n                reserved: null\n            }\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 180,
+        "wires": [
+            [
+                "1864c5b39f56ba48",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "45399727dded0224",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "DISCONNECT",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/disconnect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    disconnectPacket: {\n        fixedHeader: {\n            controlPacketType: \"DISCONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            disconnectReasonCode: msg.req.body.reason ?? null,\n\n            disconnectProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: null,\n                reasonString: null,\n                userProperty: null,\n                serverReference: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 300,
+        "wires": [
+            [
+                "7b6555f934af74e8",
+                "ab137d79f26f7d7a"
+            ]
+        ]
+    },
+    {
+        "id": "afd5fd5a62955b88",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "UNSUBSCRIBE",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/unsubscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    unsubscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"UNSUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            unsubscribeProperties: {\n                propertyLength: null,\n                userProperty: msg.payload.unsub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 640,
+        "y": 240,
+        "wires": [
+            [
+                "26899d9ca3f6cb28",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "114bc3f73916dcd1",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "CONNECT",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connectPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            protocolName: msg.payload.proto_name ?? null ,\n            protocolVersion: msg.payload.proto_ver  ?? null ,\n\n            connectFlags: {\n                userNameFlag:  null ,\n                passwordFlag:  null ,\n                willRetain:    null ,\n                willQoS:       null ,\n                willFlag:      null ,\n                cleanStart:    null ,\n                reserved: null\n            },\n\n            keepAlive: msg.payload.keepalive ?? null ,\n\n            connectProperties: {\n                propertyLength:             null ,\n                sessionExpiryInterval:      msg.payload.expiry_interval ?? null ,\n                receiveMaximum:             msg.payload.receive_maximum ?? null,\n                maximumPacketSize:          null ,\n                topicAliasMaximum:          null ,\n                requestResponseInformation: msg.payload.conn_props[\"Request-Problem-Information\"] ?? null ,\n                requestProblemInformation:  msg.payload.conn_props[\"Request-Response-Information\"] ??null ,\n                userProperty:               msg.payload.conn_props[\"User-Property\"] ?? null ,\n                authenticationMethod:       null ,\n                authenticationData:         null \n            }\n        },\n\n        payload: {\n            clientID: msg.payload.clientid ?? null ,\n\n            willProperties: {\n                propertyLength:            null ,\n                willDelayInterval:         null ,\n                payloadFormatIndicator:    null ,\n                messageExpiryInterval:     null ,\n                contentType:               msg.req.headers[\"content-type\"] ,\n                responseTopic:             null ,\n                correlationData:           null ,\n                userProperty:              null \n            },\n\n            willTopic: null ,\n            willPayload:   null ,\n            userName:      msg.payload.username ?? null ,\n            password:      null \n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 60,
+        "wires": [
+            [
+                "51e9b23a2a15a82d",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "0f440c1b7a716b18",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBLISH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "0ef4533b4171c47d",
+        "type": "csv",
+        "z": "bd14a179316b9057",
+        "name": "CSV→JSON",
+        "spec": "rfc",
+        "sep": ";",
+        "hdrin": true,
+        "hdrout": "all",
+        "multi": "mult",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": true,
+        "include_null_values": true,
+        "x": 1050,
+        "y": 900,
+        "wires": [
+            [
+                "0f440c1b7a716b18",
+                "502bd3fa7a5e7eec"
+            ]
+        ]
+    },
+    {
+        "id": "acf21e36ccc21ad2",
+        "type": "change",
+        "z": "bd14a179316b9057",
+        "name": "Structure Observations + Meta",
+        "rules": [
+            {
+                "t": "set",
+                "p": "observationCollection",
+                "pt": "msg",
+                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(JobStart),\t   \"EndTime\": $string(JobEnd),\t   \"Sensor\":$string(Sensor),\t   \"Actor\": $string(Actuator),\t   \"Observation\": [\t       {\t           \"Property\":\"GripPoint_X\",\t           \"Result\":$string(GripPoint_X)\t           },\t       {\t           \"Property\":\"GripPoint_Y\",\t           \"Result\":$string(GripPoint_Y)\t           },\t       {\t           \"Property\":\"GripPoint_Z\",\t           \"Result\":$string(GripPoint_Z)\t           }\t  ]\t}\t",
+                "tot": "jsonata"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "columns",
+                "pt": "msg",
+                "to": "publishPacket.payload.encodedFields",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 980,
+        "wires": [
+            [
+                "bc2907fa5df5f108",
+                "9f0ce50f8e34950d"
+            ]
+        ]
+    },
+    {
+        "id": "bc2907fa5df5f108",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBLISH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1360,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "9f0ce50f8e34950d",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Payload JSON",
+        "func": "const payload = msg;\nmsg = {};\nmsg.payload = payload;\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1200,
+        "y": 720,
+        "wires": [
+            [
+                "11d354b60abe9783",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "11d354b60abe9783",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBLISH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1440,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "8ac2f9cfd573877d",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PUBLISH",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nreturn {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/publish.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    publishPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBLISH\" ,\n            flags: {\n                dup: msg.payload.flags.dup ?? null,\n                qos: msg.payload.qos ?? null,\n                retain: msg.payload.flags.retain ?? null\n            },\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            topicName: msg.payload.topic ?? null ,\n            packetIdentifier: null,\n\n            publishProperties: {\n                propertyLength: null,\n                payloadFormatIndicator: null,\n                messageExpiryInterval: null,\n                topicAlias: null,\n                responseTopic: null,\n                correlationData: null,\n                userProperty: Object.entries(msg.payload.pub_props?.[\"User-Property\"] ?? {})\n                .map(([name, value]) => ({\n                    name,\n                    value: String(value),\n                    timestamp: msg.payload.timestamp   // <-- mitgeben\n                })),\n                subscriptionIdentifier: null,\n                contentType: msg.req.body.pub_props[\"Content-Type\"] ?? null\n            }\n        },\n\n        payload: {\n            data: msg.payload.payload ?? null \n        }\n    }\n};",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 900,
+        "wires": [
+            [
+                "9b5ec1fd22b2459b",
+                "15e9879e5f204034"
+            ]
+        ]
+    },
+    {
+        "id": "6d03c1ae2a020b73",
+        "type": "comment",
+        "z": "bd14a179316b9057",
+        "name": "Adapt Data Type",
+        "info": "",
+        "x": 1060,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "1461a2a1c5bed3eb",
+        "type": "comment",
+        "z": "bd14a179316b9057",
+        "name": "Adapt Data Structure",
+        "info": "",
+        "x": 1360,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "7b6555f934af74e8",
+        "type": "file",
+        "z": "bd14a179316b9057",
+        "name": "Save JSON for RMLMapper",
+        "filename": "payload.path",
+        "filenameType": "msg",
+        "appendNewline": true,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 1400,
+        "y": 480,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "9b5ec1fd22b2459b",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Set RAW payload",
+        "func": "msg.payload = msg.publishPacket.payload.data ;\n\n// Ensure msg.raw is a plain string (handles Buffer/objects)\nif (typeof msg.payload === 'string') {\n  msg.publishPacket.payload.data = msg.payload;\n} else if (Buffer.isBuffer(msg.payload)) {\n  msg.publishPacket.payload.data = msg.payload.toString('utf8');\n} else {\n  msg.publishPacket.payload.data = JSON.stringify(msg.payload);\n}\n\nmsg.payload = msg.publishPacket.payload.data\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 900,
+        "wires": [
+            [
+                "0ef4533b4171c47d"
+            ]
+        ]
+    },
+    {
+        "id": "ab137d79f26f7d7a",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "DISCONNECT",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 840,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "15e9879e5f204034",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBLISH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "6e37994a9d321ff7",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PUBACK",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/puback.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBACK\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubackReasonCode: msg.req.body.reason ?? null,\n\n            pubackProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "34fb166b477cb504",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "34fb166b477cb504",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 360,
+        "wires": []
+    },
+    {
+        "id": "f3229f753b385c50",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PUBREC",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/pubrec.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubrecPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBREC\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubrecReasonCode: msg.req.body.reason ?? null,\n\n            pubrecProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 420,
+        "wires": [
+            [
+                "3e7ea1ae0552c29c",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "3e7ea1ae0552c29c",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBREC",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "df24496853482457",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PUBREL",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/pubrel.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubrelPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBREL\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubrelReasonCode: msg.req.body.reason ?? null,\n\n            pubrelProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 480,
+        "wires": [
+            [
+                "78a256035df21171",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "78a256035df21171",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBREL",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "7640cd5ecdafef9c",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PUBCOMP",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/pubcomp.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubcompPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBCOMP\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubcompReasonCode: msg.req.body.reason ?? null,\n\n            pubcompProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 540,
+        "wires": [
+            [
+                "08d3109bafa6e0e3",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "08d3109bafa6e0e3",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PUBCOMP",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "6c7c6d7faa689301",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PINGREQ",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/pingreq.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pingreqPacket: {\n        fixedHeader: {\n            controlPacketType: \"PINGREQ\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            // no variable header\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 600,
+        "wires": [
+            [
+                "e8e58d767e92896c",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "e8e58d767e92896c",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PINGREQ",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "497ea531b76daf97",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "PINGRESP",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/pingresp.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pingrespPacket: {\n        fixedHeader: {\n            controlPacketType: \"PINGRESP\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            // no variable header\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 660,
+        "wires": [
+            [
+                "498daafdb16ecbc9",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "498daafdb16ecbc9",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "PINGRESP",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "074934dba9111a79",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "AUTH",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/auth.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    authPacket: {\n        fixedHeader: {\n            controlPacketType: \"AUTH\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            authReasonCode: msg.req.body.reason ?? null,\n\n            authProperties: {\n                propertyLength: null,\n                authentificationMethod: null,\n                authentificationData: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 610,
+        "y": 720,
+        "wires": [
+            [
+                "c2ccd94090ae0e32",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "c2ccd94090ae0e32",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "AUTH",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 810,
+        "y": 720,
+        "wires": []
+    },
+    {
+        "id": "1779a8416703b1c1",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "SUBACK",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/suback.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    subackPacket: {\n        fixedHeader: {\n            controlPacketType: \"SUBACK\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n\n            subackProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            subackReasonCode: msg.req.body.reason ?? null,\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 780,
+        "wires": [
+            [
+                "5fbe7d2a71a2c901",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "5fbe7d2a71a2c901",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "SUBACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 820,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "3a9f4bfdf1c3af8f",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "UNSUBACK",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/unsuback.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    unsubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"UNSUBACK\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n\n            unsubackProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            unsubackReasonCode: msg.req.body.reason ?? null,\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 840,
+        "wires": [
+            [
+                "a3a748539beeabbf",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "a3a748539beeabbf",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "UNSUBACK",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 830,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "48c5fed0e5f300f5",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "CONNACK",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connack.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connackPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNACK\",\n            reserved: null,\n            remainingLength: null \n        },\n\n        variableHeader: {\n            connackFlags: {\n                reserved: null,\n                sessionPresent: null\n            },\n\n            connackReasonCode: msg.payload.event ?? null,\n\n            connackProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: msg.payload.expiry_interval ?? null,\n                receiveMaximum: null,\n                maximumQoS: null,\n                retainAvailable: null,\n                maximumPacketSize: null,\n                assignedClientIdentifier: null,\n                topicAliasMaximum: null,\n                reasonString: null,\n                userProperty: null,\n                wildcardSubscriptionAvailable: null,\n                subscriptionIdentifierAvailable: null,\n                sharedSubscriptionAvailable: null,\n                serverKeepAlive: msg.payload.keepalive ?? null,\n                responseInformation: null,\n                serverReference: null,\n                authenticationMethod: null,\n                authenticationData: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 630,
+        "y": 120,
+        "wires": [
+            [
+                "bc6a7b2e1556cd69",
+                "7b6555f934af74e8"
+            ]
+        ]
+    },
+    {
+        "id": "f57a30df8259c239",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "EMQX Events",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 340,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "502bd3fa7a5e7eec",
+        "type": "switch",
+        "z": "bd14a179316b9057",
+        "name": "",
+        "property": "publishPacket.variableHeader.topicName",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "sensor",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "actuator",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1210,
+        "y": 1080,
+        "wires": [
+            [
+                "acf21e36ccc21ad2"
+            ],
+            [
+                "a71489ec461f3383"
+            ]
+        ]
+    },
+    {
+        "id": "a71489ec461f3383",
+        "type": "change",
+        "z": "bd14a179316b9057",
+        "name": "Structure Observations + Meta",
+        "rules": [
+            {
+                "t": "set",
+                "p": "actuationCollection",
+                "pt": "msg",
+                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(JobStart),\t   \"EndTime\": $string(JobEnd),\t   \"Sensor\":$string(Sensor),\t   \"Actuator\": $string(Actuator),\t   \"Actuation\": [\t       {\t           \"Property\":\"Correction_X\",\t           \"Result\":$string(Correction_X)\t           },\t       {\t           \"Property\":\"Correction_Y\",\t           \"Result\":$string(Correction_Y)\t           },\t       {\t           \"Property\":\"Correction_Z\",\t           \"Result\":$string(Correction_Z)\t           }\t  ]\t}\t",
+                "tot": "jsonata"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "columns",
+                "pt": "msg",
+                "to": "publishPacket.payload.encodedFields",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1430,
+        "y": 1060,
+        "wires": [
+            [
+                "bc2907fa5df5f108",
+                "9f0ce50f8e34950d"
+            ]
+        ]
+    },
+    {
+        "id": "8d8ed53e5fcab7b2",
+        "type": "change",
+        "z": "bd14a179316b9057",
+        "name": "Structure Observations + Meta",
+        "rules": [
+            {
+                "t": "set",
+                "p": "observationCollection",
+                "pt": "msg",
+                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(Job_Start_ZS),\t   \"EndTime\": $string(Job_Ende_ZS),\t   \"Observation\": [\t       {\t           \"Property\":\"Griffpunkt_X\",\t           \"Result\":$string(Griffpunkt_X)\t           },\t       {\t           \"Property\":\"Griffpunkt_Y\",\t           \"Result\":$string(Griffpunkt_Y)\t           },\t       {\t           \"Property\":\"Griffpunkt_Z\",\t           \"Result\":$string(Griffpunkt_Z)\t           },\t       {\t           \"Property\":\"Korrekturwert_X\",\t           \"Result\":$string(Korrekturwert_X)\t           },\t       {\t           \"Property\":\"Korrekturwert_Y\",\t           \"Result\":$string(Korrekturwert_Y)\t           }\t  ]\t}\t",
+                "tot": "jsonata"
+            },
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "move",
+                "p": "columns",
+                "pt": "msg",
+                "to": "publishPacket.payload.encodedFields",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1390,
+        "y": 1240,
+        "wires": [
+            []
+        ]
+    }
+]
