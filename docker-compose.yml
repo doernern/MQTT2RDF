@@ -1,0 +1,103 @@
+services:
+
+  emqx:
+    image: emqx/emqx:5.10.2
+    container_name: emqx
+    restart: unless-stopped
+    ports:
+      - "1883:1883"
+      - "8083:8083"
+      - "8084:8084"
+      - "18083:18083"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ./emqx/data:/opt/emqx/data
+      - ./emqx/log:/opt/emqx/log
+
+  nodered:
+    image: nodered/node-red:4.1.1-22
+    container_name: nodered
+    depends_on:
+      - emqx
+    restart: unless-stopped
+    ports:
+      - "1880:1880"
+      - "1884:1884"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ./nodered/data:/data
+      - ./data:/data/share
+
+  rmlmapper:
+    image: rmlio/rmlmapper-java:v8.0.0
+    container_name: rmlmapper
+    depends_on:
+      - nodered
+      - graphdb
+    restart: unless-stopped
+    entrypoint: ["/bin/sh","/work/run.sh"]
+    volumes:
+      - ./rml/run.sh:/work/run.sh:ro
+
+      - ./rml/control-packets/publish.ttl:/work/control-packets/publish.ttl:ro
+      - ./rml/control-packets/subscribe.ttl:/work/control-packets/subscribe.ttl:ro
+      - ./rml/control-packets/unsubscribe.ttl:/work/control-packets/unsubscribe.ttl:ro
+      - ./rml/control-packets/connect.ttl:/work/control-packets/connect.ttl:ro      
+      - ./rml/control-packets/connack.ttl:/work/control-packets/connack.ttl:ro
+      - ./rml/control-packets/disconnect.ttl:/work/control-packets/disconnect.ttl:ro
+      - ./rml/control-packets/puback.ttl:/work/control-packets/puback.ttl:ro
+      - ./rml/control-packets/pubrel.ttl:/work/control-packets/pubrel.ttl:ro
+      - ./rml/control-packets/pubrec.ttl:/work/control-packets/pubrec.ttl:ro
+      - ./rml/control-packets/pubcomp.ttl:/work/control-packets/pubcomp.ttl:ro      
+      - ./rml/control-packets/suback.ttl:/work/control-packets/suback.ttl:ro
+      - ./rml/control-packets/unsuback.ttl:/work/control-packets/unsuback.ttl:ro
+      - ./rml/control-packets/auth.ttl:/work/control-packets/auth.ttl:ro      
+      - ./rml/control-packets/pingresp.ttl:/work/control-packets/pingresp.ttl:ro
+      - ./rml/control-packets/pingreq.ttl:/work/control-packets/pingreq.ttl:ro
+      
+      - ./rml/control-packets/publish.sh:/work/control-packets/publish.sh:ro
+      - ./rml/control-packets/subscribe.sh:/work/control-packets/subscribe.sh:ro
+      - ./rml/control-packets/unsubscribe.sh:/work/control-packets/unsubscribe.sh:ro
+      - ./rml/control-packets/connect.sh:/work/control-packets/connect.sh:ro
+      - ./rml/control-packets/connack.sh:/work/control-packets/connack.sh:ro
+      - ./rml/control-packets/disconnect.sh:/work/control-packets/disconnect.sh:ro
+      - ./rml/control-packets/puback.sh:/work/control-packets/puback.sh:ro
+      - ./rml/control-packets/pubrel.sh:/work/control-packets/pubrel.sh:ro
+      - ./rml/control-packets/pubrec.sh:/work/control-packets/pubrec.sh:ro
+      - ./rml/control-packets/pubcomp.sh:/work/control-packets/pubcomp.sh:ro
+      - ./rml/control-packets/suback.sh:/work/control-packets/suback.sh:ro
+      - ./rml/control-packets/unsuback.sh:/work/control-packets/unsuback.sh:ro
+      - ./rml/control-packets/auth.sh:/work/control-packets/auth.sh:ro
+      - ./rml/control-packets/pingresp.sh:/work/control-packets/pingresp.sh:ro
+      - ./rml/control-packets/pingreq.sh:/work/control-packets/pingreq.sh:ro
+
+      - ./data:/work/data
+
+  graphdb:
+    image: ontotext/graphdb:10.8.11
+    container_name: graphdb
+    restart: unless-stopped
+    ports:
+      - "7200:7200"
+    environment:
+      - GDB_HEAP_SIZE=2g
+    volumes:
+      - graphdb-data:/opt/graphdb/home
+
+  jupyter:
+    build: ./jupyter
+    container_name: jupyter
+    restart: unless-stopped
+    depends_on:
+      - graphdb
+    ports:
+      - "8888:8888"
+    environment:
+      - TZ=Europe/Berlin
+    volumes:
+      - ./jupyter/notebooks:/work/notebooks 
+
+volumes:
+  graphdb-data:
