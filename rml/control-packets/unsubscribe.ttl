@@ -83,7 +83,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPacketIdentifier ;
-    rr:objectMap [ rml:reference "unsubscribePacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "unsubscribePacket.variableHeader.packetIdentifier" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to UnsubscribeProperties
@@ -103,7 +103,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "unsubscribePacket.variableHeader.unsubscribeProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "unsubscribePacket.variableHeader.unsubscribeProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserProperty ;
@@ -199,7 +199,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NeworkConnection
@@ -233,7 +233,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

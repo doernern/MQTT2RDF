@@ -78,7 +78,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasDisconnectReasonCode ;
-    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectReasonCode" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectReasonCode" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to DisconnectProperties
@@ -98,15 +98,15 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSessionExpiryInterval ;
-    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.sessionExpiryInterval" ; rr:datatype xsd:boolean ]
+    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.sessionExpiryInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReasonString ;
-    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.reasonString" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "disconnectPacket.variableHeader.disconnectProperties.reasonString" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserProperty ;
@@ -169,7 +169,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnectionMapping
@@ -207,7 +207,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

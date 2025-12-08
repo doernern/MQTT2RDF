@@ -83,7 +83,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPacketIdentifier ;
-    rr:objectMap [ rml:reference "subscribePacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.variableHeader.packetIdentifier" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to SubscribeProperties
@@ -103,11 +103,11 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "subscribePacket.variableHeader.subscribeProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.variableHeader.subscribeProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSubscriptionIdentifier ;
-    rr:objectMap [ rml:reference "subscribePacket.variableHeader.subscribeProperties.subscriptionIdentifier" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "subscribePacket.variableHeader.subscribeProperties.subscriptionIdentifier" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserProperty ;
@@ -144,22 +144,22 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasQoSLevel ;
-    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.qos" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.qos" ; rr:datatype xsd:string ]
   ] ;
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasNoLocal ;
-    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.noLocal" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.noLocal" ; rr:datatype xsd:boolean ]
   ] ;
   
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRetainAsPublished ;
-    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.retainAsPublished" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.retainAsPublished" ; rr:datatype xsd:boolean ]
   ] ;
   
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRetainHandling ;
-    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.retainHandling" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "subscribePacket.subscriptionOption.retainHandling" ; rr:datatype xsd:unsignedByte ]
   ] ;
 
   #Link to TopicFilter
@@ -238,7 +238,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NeworkConnection
@@ -272,7 +272,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

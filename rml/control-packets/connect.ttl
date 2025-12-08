@@ -83,15 +83,15 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasProtocolName ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.protocolName" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.protocolName" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasProtocolVersion ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.protocolVersion" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.protocolVersion" ; rr:datatype xsd:unsignedByte ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserNameFlag ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.userNameFlag" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.userNameFlag" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPasswortFlag ;
@@ -99,7 +99,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasWillRetain ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.willRetain" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.willRetain" ; rr:datatype xsd:boolean ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:haswillQoS ;
@@ -107,15 +107,15 @@
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasWillFlag ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.willFlag" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.willFlag" ; rr:datatype xsd:boolean ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasCleanStart ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.cleanStart" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.cleanStart" ; rr:datatype xsd:boolean ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasKeepAlive ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.cleanStart" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectFlags.cleanStart" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to ConnectProperties
@@ -135,31 +135,31 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSessionExpiryInterval ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.sessionExpiryInterval" ; rr:datatype xsd:boolean ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.sessionExpiryInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReceiveMaximum ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.receiveMaximum" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.receiveMaximum" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasMaximumPacketSize ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.maximumPacketSize" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.maximumPacketSize" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasTopicAliasMaximum ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.topicAliasMaximum" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.topicAliasMaximum" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRequestResponseInformation ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.requestResponseInformation" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.requestResponseInformation" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRequestProblemInformation ;
-    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.requestProblemInformation" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.variableHeader.connectProperties.requestProblemInformation" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserProperty ;
@@ -227,27 +227,27 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasWillDelayInterval ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.willDelayInterval" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.willDelayInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPayloadFormatIndicator ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.payloadFormatIndicator" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.payloadFormatIndicator" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasMessageExpiryInterval ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.messageExpiryInterval" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.messageExpiryInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasContentType ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.contentType" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.contentType" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasCorrelationData ;
-    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.correlationData" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connectPacket.payload.willProperties.correlationData" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasUserProperty ;
@@ -348,7 +348,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnection
@@ -382,7 +382,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

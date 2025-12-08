@@ -78,11 +78,11 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPacketIdentifier ;
-    rr:objectMap [ rml:reference "pubackPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubackPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPubackReasonCode ;
-    rr:objectMap [ rml:reference "pubackPacket.variableHeader.pubackReasonCode" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubackPacket.variableHeader.pubackReasonCode" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to PubackProperties
@@ -102,7 +102,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "pubackPacket.variableHeader.pubackProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubackPacket.variableHeader.pubackProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReasonString ;
@@ -165,7 +165,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnectionMapping
@@ -203,7 +203,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

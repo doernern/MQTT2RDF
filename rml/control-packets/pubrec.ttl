@@ -78,11 +78,11 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPacketIdentifier ;
-    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPubrecReasonCode ;
-    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.pubrecReasonCode" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.pubrecReasonCode" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to PubrecProperties
@@ -102,7 +102,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.pubrecProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "pubrecPacket.variableHeader.pubrecProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReasonString ;
@@ -165,7 +165,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnectionMapping
@@ -203,7 +203,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

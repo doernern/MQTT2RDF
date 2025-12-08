@@ -78,11 +78,11 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSessionPresentFlag ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackFlags.sessionPresent" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackFlags.sessionPresent" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasConnackReasonCode ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackReasonCode" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackReasonCode" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to ConnackProperties
@@ -102,35 +102,35 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSessionExpiryInterval ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sessionExpiryInterval" ; rr:datatype xsd:boolean ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sessionExpiryInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReceiveMaximum ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.receiveMaximum" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.receiveMaximum" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasMaximumQoS ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumQoS" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumQoS" ; rr:datatype xsd:unsignedByte ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRetainAvailable ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.retainAvailable" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.retainAvailable" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasMaximumPacketSize ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumPacketSize" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.maximumPacketSize" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasAssignedClientIdentifier ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.assignedClientIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.assignedClientIdentifier" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasTopicAliasMaximum ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.topicAliasMaximum" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.topicAliasMaximum" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReasonString ;
@@ -142,19 +142,19 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasWildcardSubscriptionAvailable ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.wildcardSubscriptionAvailable" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.wildcardSubscriptionAvailable" ; rr:datatype xsd:boolean ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSubscriptionIdentifierAvailable ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.subscriptionIdentifierAvailable" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.subscriptionIdentifierAvailable" ; rr:datatype xsd:boolean ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSharedSubscriptionAvailable ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sharedSubscriptionAvailable" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.sharedSubscriptionAvailable" ; rr:datatype xsd:boolean ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasServerKeepAlive ;
-    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.serverKeepAlive" ; rr:datatype xsd:string ]
+    rr:objectMap [ rml:reference "connackPacket.variableHeader.connackProperties.serverKeepAlive" ; rr:datatype xsd:unsignedShort ]
   ] ;
     rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasResponseInformation ;
@@ -225,7 +225,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnectionMapping
@@ -259,7 +259,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

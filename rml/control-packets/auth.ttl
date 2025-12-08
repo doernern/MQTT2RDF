@@ -78,7 +78,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasAuthReasonCode ;
-    rr:objectMap [ rml:reference "authPacket.variableHeader.authReasonCode" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "authPacket.variableHeader.authReasonCode" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to AuthProperties
@@ -98,15 +98,15 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasAuthentificationMethod ;
-    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.authentificationMethod" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.authentificationMethod" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasAuthentificationData ;
-    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.authentificationData" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "authPacket.variableHeader.authProperties.authentificationData" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasReasonString ;
@@ -169,7 +169,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnectionMapping
@@ -208,7 +208,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker

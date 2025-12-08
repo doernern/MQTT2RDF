@@ -67,11 +67,11 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasDUPFlag ;
-    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.dup" ; rr:datatype xsd:boolean ]
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.dup" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasQoSLevel ;
-    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.qos" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.fixedHeader.flags.qos" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasRetainFlag ;
@@ -97,7 +97,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPacketIdentifier ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.packetIdentifier" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to Topic
@@ -123,7 +123,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPropertyLength ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.propertyLength" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.propertyLength" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPayloadFormatIndicator ;
@@ -131,19 +131,19 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasMessageExpiryInterval ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.messageExpiryInterval" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.messageExpiryInterval" ; rr:datatype xsd:unsignedInt ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasTopicAlias ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.topicAlias" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.topicAlias" ; rr:datatype xsd:unsignedShort ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasCorrelationData ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.correlationData" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.correlationData" ; rr:datatype xsd:string ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasSubscriptionIdentifier ;
-    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.subscriptionIdentifier" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "publishPacket.variableHeader.publishProperties.subscriptionIdentifier" ; rr:datatype xsd:nonNegativeInteger ]
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasContentType ;
@@ -597,7 +597,7 @@
   ] ;
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasPortNumber ;
-    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.broker.portNumber" ; rr:datatype xsd:unsignedShort ]
   ] ;
 
   # Link to NetworkConnection
@@ -635,7 +635,7 @@
 
   rr:predicateObjectMap [
     rr:predicate mqtt4ssn:hasClientID ;
-    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:integer ]
+    rr:objectMap [ rml:reference "network.client.clientID" ; rr:datatype xsd:string ]
   ] ;
 
   # Link to Broker
