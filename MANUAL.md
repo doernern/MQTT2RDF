@@ -85,7 +85,7 @@ git clone git@github.com:doernern/MQTT2RDF.git
 ```bash
 gh repo clone doernern/MQTT2RDF
 ```
-Alternatively, download the repository as a ZIP file directly on [GitHub](https://github.com/doernern/MQTT4SSNOntology).   
+Alternatively, download the repository as a ZIP file directly on [GitHub](https://github.com/doernern/MQTT2RDF).   
 
 ## 6. Running the Framework
 
