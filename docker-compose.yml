@@ -43,6 +43,7 @@ services:
     volumes:
       - ./rml/run.sh:/work/run.sh:ro
       - ./rml/trigger_server.py:/work/trigger_server.py:ro
+      - ./rml/control-packets/map_and_post.sh:/work/control-packets/map_and_post.sh:ro
 
       - ./rml/control-packets/publish.ttl:/work/control-packets/publish.ttl:ro
       - ./rml/control-packets/subscribe.ttl:/work/control-packets/subscribe.ttl:ro

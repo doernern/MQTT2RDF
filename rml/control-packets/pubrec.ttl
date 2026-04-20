@@ -15,7 +15,7 @@
 <#Base>
   rml:source "/work/data/in/pubrec.json" ;
   rml:referenceFormulation ql:JSONPath ;
-  rml:iterator "$" .
+  rml:iterator "$[*]" .
 
 ############################
 # MQTT PubrecPacket

@@ -17,7 +17,7 @@
 <#Base>
   rml:source "/work/data/in/publish.json" ;
   rml:referenceFormulation ql:JSONPath ;
-  rml:iterator "$" .
+  rml:iterator "$[*]" .
 
 ############################
 # MQTT PublishPacket
@@ -275,7 +275,7 @@
   rml:logicalSource [
     rml:source "/work/data/in/publish.json" ;
     rml:referenceFormulation ql:JSONPath ;
-    rml:iterator "$.publishPacket.variableHeader.publishProperties.userProperty[*]" ;
+    rml:iterator "$[*].publishPacket.variableHeader.publishProperties.userProperty[*]" ;
   ] ;
 
   rr:subjectMap [
@@ -320,7 +320,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.observationCollection[*]" ;
+        rml:iterator "$[*].observationCollection[*]" ;
     ] ;
 
     rr:subjectMap [
@@ -358,7 +358,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.observationCollection[*].Observation[*]" ;
+        rml:iterator "$[*].observationCollection[*].Observation[*]" ;
     ] ;
 
     rr:subjectMap [
@@ -386,7 +386,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.actuationCollection[*]" ;
+        rml:iterator "$[*].actuationCollection[*]" ;
     ] ;
 
     rr:subjectMap [
@@ -424,7 +424,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.actuationCollection[*].Actuation[*]" ;
+        rml:iterator "$[*].actuationCollection[*].Actuation[*]" ;
     ] ;
 
     rr:subjectMap [
@@ -452,7 +452,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.observationCollection[*]" ;
+        rml:iterator "$[*].observationCollection[*]" ;
     ] ;
 
   rr:subjectMap [
@@ -465,7 +465,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.actuationCollection[*]" ;
+        rml:iterator "$[*].actuationCollection[*]" ;
     ] ;
 
   rr:subjectMap [
@@ -482,7 +482,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.observationCollection[*].Observation[*]" ;
+        rml:iterator "$[*].observationCollection[*].Observation[*]" ;
     ] ;
 
   rr:subjectMap [
@@ -495,7 +495,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.actuationCollection[*].Actuation[*]" ;
+        rml:iterator "$[*].actuationCollection[*].Actuation[*]" ;
     ] ;
 
   rr:subjectMap [
@@ -512,7 +512,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.observationCollection[*]" ;
+        rml:iterator "$[*].observationCollection[*]" ;
     ] ;
 
   rr:subjectMap [
@@ -531,7 +531,7 @@
     rml:logicalSource [
         rml:source "/work/data/in/publish.json" ;
         rml:referenceFormulation ql:JSONPath ;
-        rml:iterator "$.actuationCollection[*]" ;
+        rml:iterator "$[*].actuationCollection[*]" ;
     ] ;
 
   rr:subjectMap [

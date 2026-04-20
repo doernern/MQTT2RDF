@@ -1,5 +1,5 @@
 #!/bin/sh
-set -eu
+set -e
 
-echo "[rmlmapper] starting trigger server..."
-python3 /work/trigger_server.py
+echo "[INFO] Starting Trigger Server..."
+exec python3 /work/trigger_server.py

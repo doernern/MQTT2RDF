@@ -31,6 +31,35 @@
         "info": ""
     },
     {
+        "id": "http_trigger_subflow",
+        "type": "subflow",
+        "name": "Trigger RML Mapper",
+        "info": "Sendet Packet an Trigger Server",
+        "in": [
+            {
+                "x": 40,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "build_url"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 520,
+                "y": 80,
+                "wires": [
+                    {
+                        "id": "http_request",
+                        "port": 0
+                    }
+                ]
+            }
+        ]
+    },
+    {
         "id": "broker1",
         "type": "mqtt-broker",
         "name": "Local Mosquitto",
@@ -140,7 +169,7 @@
         ],
         "order": 1,
         "className": "",
-        "visible": "true",
+        "visible": true,
         "disabled": "false"
     },
     {
@@ -184,6 +213,44 @@
         "visible": "true",
         "disabled": "false",
         "groupType": "default"
+    },
+    {
+        "id": "build_url",
+        "type": "function",
+        "z": "http_trigger_subflow",
+        "name": "Build URL",
+        "func": "// erwartet msg.packet z.B. 'connect'\nmsg.method = \"POST\";\nmsg.url = `http://rmlmapper:8080/map/${msg.packet}`;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 200,
+        "y": 80,
+        "wires": [
+            [
+                "http_request"
+            ]
+        ]
+    },
+    {
+        "id": "http_request",
+        "type": "http request",
+        "z": "http_trigger_subflow",
+        "name": "Call Trigger Server",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 370,
+        "y": 80,
+        "wires": [
+            []
+        ]
     },
     {
         "id": "1950206633b62a22",
@@ -1071,6 +1138,7 @@
         "id": "2821df5fc7740253",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "Test",
         "qos": "2",
@@ -1132,6 +1200,7 @@
         "id": "6fd1736003b1eb7d",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 0 / Retain 1 / CSV",
         "topic": "Test",
         "qos": "0",
@@ -1150,6 +1219,7 @@
         "id": "1fbb18c0c058b5dc",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 1 / Retain 1 / CSV",
         "topic": "Test",
         "qos": "1",
@@ -1168,6 +1238,7 @@
         "id": "6afa3144331bca45",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 1 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "1",
@@ -1186,6 +1257,7 @@
         "id": "ef5229fd9af3bb25",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "2",
@@ -1204,6 +1276,7 @@
         "id": "01d28c3d5c3881ae",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 0 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "0",
@@ -1298,7 +1371,6 @@
         "id": "0f0ad79860fd7080",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "sensor",
         "qos": "2",
@@ -1317,7 +1389,6 @@
         "id": "644869caea526090",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "actuator",
         "qos": "2",
@@ -1469,7 +1540,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "EMQX Events",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1486,7 +1557,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "CONNECT",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1503,7 +1574,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "CONNACK",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1520,7 +1591,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "UNSUBSCRIBE",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1537,7 +1608,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "SUBSCRIBE",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1554,7 +1625,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "SUBSCRIBE",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/subscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    subscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"SUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n\n            subscribeProperties: {\n                propertyLength: null,\n                subscriptionIdentifier: msg.payload.sub_props[\"Subscription-Identifier\"] ?? null,\n                userProperty: msg.payload.sub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null,\n            subscriptionOption: {\n                qos: msg.payload.qos ?? null ,\n                noLocal: null ,\n                retainAsPublished: null ,\n                retainHandling: null ,\n                reserved: null\n            }\n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/subscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    subscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"SUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n\n            subscribeProperties: {\n                propertyLength: null,\n                subscriptionIdentifier: msg.payload.sub_props[\"Subscription-Identifier\"] ?? null,\n                userProperty: msg.payload.sub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null,\n            subscriptionOption: {\n                qos: msg.payload.qos ?? null ,\n                noLocal: null ,\n                retainAsPublished: null ,\n                retainHandling: null ,\n                reserved: null\n            }\n        }\n    }\n};\n\nmsg.packet = \"subscribe\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1566,7 +1637,8 @@
         "wires": [
             [
                 "1864c5b39f56ba48",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -1575,7 +1647,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "DISCONNECT",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/disconnect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    disconnectPacket: {\n        fixedHeader: {\n            controlPacketType: \"DISCONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            disconnectReasonCode: msg.req.body.reason ?? null,\n\n            disconnectProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: null,\n                reasonString: null,\n                userProperty: null,\n                serverReference: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/disconnect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    disconnectPacket: {\n        fixedHeader: {\n            controlPacketType: \"DISCONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            disconnectReasonCode: msg.req.body.reason ?? null,\n\n            disconnectProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: null,\n                reasonString: null,\n                userProperty: null,\n                serverReference: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nmsg.packet = \"disconnect\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1587,7 +1659,8 @@
         "wires": [
             [
                 "7b6555f934af74e8",
-                "ab137d79f26f7d7a"
+                "ab137d79f26f7d7a",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -1596,7 +1669,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "UNSUBSCRIBE",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/unsubscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    unsubscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"UNSUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            unsubscribeProperties: {\n                propertyLength: null,\n                userProperty: msg.payload.unsub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null\n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/unsubscribe.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    unsubscribePacket: {\n        fixedHeader: {\n            controlPacketType: \"UNSUBSCRIBE\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            unsubscribeProperties: {\n                propertyLength: null,\n                userProperty: msg.payload.unsub_props[\"User-Property\"] ?? null\n            }\n        },\n\n        payload: {\n            topicFilter: msg.payload.topic ?? null\n        }\n    }\n};\n\nmsg.packet = \"unsubscribe\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1608,7 +1681,8 @@
         "wires": [
             [
                 "26899d9ca3f6cb28",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -1617,7 +1691,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "CONNECT",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connectPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            protocolName: msg.payload.proto_name ?? null ,\n            protocolVersion: msg.payload.proto_ver  ?? null ,\n\n            connectFlags: {\n                userNameFlag:  null ,\n                passwordFlag:  null ,\n                willRetain:    null ,\n                willQoS:       null ,\n                willFlag:      null ,\n                cleanStart:    null ,\n                reserved: null\n            },\n\n            keepAlive: msg.payload.keepalive ?? null ,\n\n            connectProperties: {\n                propertyLength:             null ,\n                sessionExpiryInterval:      msg.payload.expiry_interval ?? null ,\n                receiveMaximum:             msg.payload.receive_maximum ?? null,\n                maximumPacketSize:          null ,\n                topicAliasMaximum:          null ,\n                requestResponseInformation: msg.payload.conn_props[\"Request-Problem-Information\"] ?? null ,\n                requestProblemInformation:  msg.payload.conn_props[\"Request-Response-Information\"] ??null ,\n                userProperty:               msg.payload.conn_props[\"User-Property\"] ?? null ,\n                authenticationMethod:       null ,\n                authenticationData:         null \n            }\n        },\n\n        payload: {\n            clientID: msg.payload.clientid ?? null ,\n\n            willProperties: {\n                propertyLength:            null ,\n                willDelayInterval:         null ,\n                payloadFormatIndicator:    null ,\n                messageExpiryInterval:     null ,\n                contentType:               msg.req.headers[\"content-type\"] ,\n                responseTopic:             null ,\n                correlationData:           null ,\n                userProperty:              null \n            },\n\n            willTopic: null ,\n            willPayload:   null ,\n            userName:      msg.payload.username ?? null ,\n            password:      null \n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connect.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connectPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNECT\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            protocolName: msg.payload.proto_name ?? null ,\n            protocolVersion: msg.payload.proto_ver  ?? null ,\n\n            connectFlags: {\n                userNameFlag:  null ,\n                passwordFlag:  null ,\n                willRetain:    null ,\n                willQoS:       null ,\n                willFlag:      null ,\n                cleanStart:    null ,\n                reserved: null\n            },\n\n            keepAlive: msg.payload.keepalive ?? null ,\n\n            connectProperties: {\n                propertyLength:             null ,\n                sessionExpiryInterval:      msg.payload.expiry_interval ?? null ,\n                receiveMaximum:             msg.payload.receive_maximum ?? null,\n                maximumPacketSize:          null ,\n                topicAliasMaximum:          null ,\n                requestResponseInformation: msg.payload.conn_props[\"Request-Problem-Information\"] ?? null ,\n                requestProblemInformation:  msg.payload.conn_props[\"Request-Response-Information\"] ??null ,\n                userProperty:               msg.payload.conn_props[\"User-Property\"] ?? null ,\n                authenticationMethod:       null ,\n                authenticationData:         null \n            }\n        },\n\n        payload: {\n            clientID: msg.payload.clientid ?? null ,\n\n            willProperties: {\n                propertyLength:            null ,\n                willDelayInterval:         null ,\n                payloadFormatIndicator:    null ,\n                messageExpiryInterval:     null ,\n                contentType:               msg.req.headers[\"content-type\"] ,\n                responseTopic:             null ,\n                correlationData:           null ,\n                userProperty:              null \n            },\n\n            willTopic: null ,\n            willPayload:   null ,\n            userName:      msg.payload.username ?? null ,\n            password:      null \n        }\n    }\n};\n\nmsg.packet = \"connect\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1629,7 +1703,8 @@
         "wires": [
             [
                 "51e9b23a2a15a82d",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -1638,7 +1713,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBLISH",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1720,7 +1795,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBLISH",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1737,7 +1812,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Payload JSON",
-        "func": "const payload = msg;\nmsg = {};\nmsg.payload = payload;\nreturn msg;",
+        "func": "const payload = msg;\nmsg = {};\nmsg.payload = payload;\nmsg.packet = \"publish\";\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1749,7 +1824,8 @@
         "wires": [
             [
                 "11d354b60abe9783",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -1758,7 +1834,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBLISH",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1815,6 +1891,7 @@
         "id": "7b6555f934af74e8",
         "type": "file",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "Save JSON for RMLMapper",
         "filename": "payload.path",
         "filenameType": "msg",
@@ -1855,7 +1932,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "DISCONNECT",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1872,7 +1949,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBLISH",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1910,7 +1987,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBACK",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1948,7 +2025,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBREC",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1986,7 +2063,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBREL",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2024,7 +2101,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PUBCOMP",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2062,7 +2139,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PINGREQ",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2100,7 +2177,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "PINGRESP",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2138,7 +2215,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "AUTH",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2176,7 +2253,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "SUBACK",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2214,7 +2291,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "UNSUBACK",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2252,7 +2329,7 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "EMQX Events",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -2341,6 +2418,7 @@
         "id": "build-sh-from-path",
         "type": "function",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "Build SH from payload.path",
         "func": "const inputPath = msg.payload.path;\n\nif (!inputPath || typeof inputPath !== \"string\") {\n    node.error(\"payload.path fehlt\", msg);\n    return null;\n}\n\nconst fileName = inputPath.split(\"/\").pop();\nconst baseName = fileName.replace(/\\.json$/i, \"\").toLowerCase();\n\n// Nur Script-Pfad, kein führendes \"sh \"\nmsg.payload = `/rml/control-packets/${baseName}.sh`;\nmsg.script = msg.payload;\nmsg.packetType = baseName;\n\nreturn msg;",
         "outputs": 1,
@@ -2361,6 +2439,7 @@
         "id": "build-rml-trigger",
         "type": "function",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "Build RML trigger",
         "func": "const inputPath =\n    msg.payload?.path ||\n    msg.filename ||\n    msg.path ||\n    (typeof msg.payload === \"string\" ? msg.payload : null);\n\nif (!inputPath || typeof inputPath !== \"string\") {\n    node.error(\"Kein Dateipfad gefunden in msg.payload.path, msg.filename, msg.path oder msg.payload\", msg);\n    return null;\n}\n\nconst fileName = inputPath.split(\"/\").pop();\nconst baseName = fileName.replace(/\\.json$/i, \"\").toLowerCase();\n\nmsg.method = \"POST\";\nmsg.url = `http://rmlmapper:8080/map/${baseName}`;\nmsg.headers = { \"Content-Type\": \"application/json\" };\nmsg.payload = { path: inputPath, packetType: baseName };\n\nreturn msg;",
         "outputs": 1,
@@ -2381,6 +2460,7 @@
         "id": "http-trigger-rml",
         "type": "http request",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "Trigger RMLMapper",
         "method": "use",
         "ret": "obj",
@@ -2401,8 +2481,9 @@
         "id": "debug-rml-response",
         "type": "debug",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "RML Response Body",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "complete": "payload",
         "targetType": "msg",
@@ -2416,8 +2497,9 @@
         "id": "debug-rml-full",
         "type": "debug",
         "z": "bd14a179316b9057",
+        "d": true,
         "name": "RML Full Msg",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "complete": "true",
         "targetType": "full",
@@ -2425,6 +2507,199 @@
         "statusType": "auto",
         "x": 2040,
         "y": 220,
+        "wires": []
+    },
+    {
+        "id": "f2903667593944c3",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Normalize payload",
+        "func": "let p = msg.payload;\n\nif (Buffer.isBuffer(p)) {\n    p = p.toString('utf8');\n}\n\nmsg.payloadFormat = 'raw';\n\nif (typeof p === 'string') {\n    const s = p.trim();\n\n    if (s.startsWith('{') || s.startsWith('[')) {\n        try {\n            msg.payload = JSON.parse(s);\n            msg.payloadFormat = 'json';\n            return [null, msg];\n        } catch (e) {\n        }\n    }\n\n    const looksLikeCsv =\n        (s.includes(';') || s.includes(',')) &&\n        s.includes('\\n') &&\n        !s.startsWith('{') &&\n        !s.startsWith('[');\n\n    if (looksLikeCsv) {\n        msg.payload = s;\n        msg.payloadFormat = 'csv';\n        return [msg, null];\n    }\n\n    msg.payload = { raw: s };\n    msg.payloadFormat = 'raw';\n    return [null, msg];\n}\n\nif (typeof p === 'object' && p !== null) {\n    msg.payload = p;\n    msg.payloadFormat = 'object';\n    return [null, msg];\n}\n\nmsg.payload = { raw: p };\nmsg.payloadFormat = 'raw';\nreturn [null, msg];",
+        "outputs": 2,
+        "noerr": 0,
+        "x": 1670,
+        "y": 620,
+        "wires": [
+            [
+                "6c47b8270bff971f"
+            ],
+            [
+                "3ac794e9ab44b013"
+            ]
+        ]
+    },
+    {
+        "id": "6c47b8270bff971f",
+        "type": "csv",
+        "z": "bd14a179316b9057",
+        "name": "CSV to JSON only if needed",
+        "sep": ";",
+        "hdrin": true,
+        "hdrout": "none",
+        "multi": "one",
+        "ret": "\\n",
+        "temp": "",
+        "skip": "0",
+        "strings": true,
+        "include_empty_strings": "",
+        "include_null_values": "",
+        "x": 1900,
+        "y": 520,
+        "wires": [
+            [
+                "91c6f57f27af2d21"
+            ]
+        ]
+    },
+    {
+        "id": "91c6f57f27af2d21",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Wrap CSV result minimally",
+        "func": "// CSV bleibt hier absichtlich minimal.\n// Fuer produktive Nutzung musst du CSV in deine bestehende Packet-Struktur transformieren,\n// z.B. in publishPacket / connectPacket usw.\nmsg.payload = {\n    timestamp: new Date().toISOString(),\n    csvPayload: msg.payload\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2200,
+        "y": 520,
+        "wires": [
+            [
+                "3ac794e9ab44b013"
+            ]
+        ]
+    },
+    {
+        "id": "3ac794e9ab44b013",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Keep original packet structure",
+        "func": "const packet = (msg.packet || 'unknown').toLowerCase();\nmsg.topic = packet;\n// WICHTIG: payload bleibt die Originalstruktur, damit die bestehenden RML-Referenzen weiter passen\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 2510,
+        "y": 620,
+        "wires": [
+            [
+                "5b14530eecafe21f"
+            ]
+        ]
+    },
+    {
+        "id": "5b14530eecafe21f",
+        "type": "join",
+        "z": "bd14a179316b9057",
+        "name": "Batch per packet",
+        "mode": "custom",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "useparts": false,
+        "accumulate": false,
+        "timeout": "2",
+        "count": "20",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 2800,
+        "y": 520,
+        "wires": [
+            [
+                "d3941c1b14808597"
+            ]
+        ]
+    },
+    {
+        "id": "d3941c1b14808597",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Build batch file",
+        "func": "const packet = (msg.topic || 'unknown').toLowerCase();\nconst arr = Array.isArray(msg.payload) ? msg.payload : [msg.payload];\n\nmsg.filename = `/data/share/in/${packet}.json`;\nmsg.payload = JSON.stringify(arr, null, 2);\nmsg.packet = packet;\nmsg.batchSize = arr.length;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3020,
+        "y": 640,
+        "wires": [
+            [
+                "d58523faed9a99f1"
+            ]
+        ]
+    },
+    {
+        "id": "d58523faed9a99f1",
+        "type": "file",
+        "z": "bd14a179316b9057",
+        "name": "Write batch JSON",
+        "filename": "filename",
+        "filenameType": "msg",
+        "appendNewline": false,
+        "createDir": true,
+        "overwriteFile": "true",
+        "encoding": "utf8",
+        "x": 3290,
+        "y": 640,
+        "wires": [
+            [
+                "dd52c7802610902c"
+            ]
+        ]
+    },
+    {
+        "id": "dd52c7802610902c",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Build trigger request",
+        "func": "msg.method = 'POST';\nmsg.url = `http://rmlmapper:8080/map/${msg.packet}`;\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    packet: msg.packet,\n    batchSize: msg.batchSize\n};\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 3540,
+        "y": 660,
+        "wires": [
+            [
+                "84d269eb2028372e"
+            ]
+        ]
+    },
+    {
+        "id": "84d269eb2028372e",
+        "type": "http request",
+        "z": "bd14a179316b9057",
+        "name": "Call trigger server",
+        "method": "use",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": true,
+        "headers": [],
+        "x": 3790,
+        "y": 660,
+        "wires": [
+            [
+                "862d31c07da2dc32"
+            ]
+        ]
+    },
+    {
+        "id": "862d31c07da2dc32",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "Trigger result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "x": 4010,
+        "y": 640,
         "wires": []
     },
     {

@@ -1,70 +1,79 @@
-from http.server import BaseHTTPRequestHandler, HTTPServer
-import json
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+from queue import Queue
+from threading import Thread
 import subprocess
-import sys
+import json
 
-ALLOWED = {
-    "connect", "connack", "publish", "puback", "pubrec", "pubrel", "pubcomp",
-    "subscribe", "suback", "unsubscribe", "unsuback",
-    "pingreq", "pingresp", "disconnect", "auth"
+PORT = 8080
+jobs = Queue()
+
+ALLOWED_PACKETS = {
+    "connect", "connack", "subscribe", "suback", "unsubscribe", "unsuback",
+    "disconnect", "publish", "puback", "pubrec", "pubrel", "pubcomp",
+    "pingreq", "pingresp"
 }
 
+def worker():
+    while True:
+        packet = jobs.get()
+        try:
+            subprocess.run(
+                ["sh", f"/work/control-packets/{packet}.sh"],
+                check=False
+            )
+        finally:
+            jobs.task_done()
+
+for _ in range(4):
+    Thread(target=worker, daemon=True).start()
+
+
 class Handler(BaseHTTPRequestHandler):
+    def do_GET(self):
+        if self.path == "/health":
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"OK")
+            return
+
+        self.send_response(404)
+        self.end_headers()
+
     def do_POST(self):
         parts = self.path.strip("/").split("/")
+
         if len(parts) != 2 or parts[0] != "map":
             self.send_response(404)
             self.end_headers()
-            self.wfile.write(b"not found")
             return
 
         packet = parts[1].lower()
-        if packet not in ALLOWED:
+
+        if packet not in ALLOWED_PACKETS:
             self.send_response(400)
+            self.send_header("Content-Type", "application/json")
             self.end_headers()
-            self.wfile.write(f"invalid packet type: {packet}".encode())
+            self.wfile.write(json.dumps({
+                "status": "error",
+                "message": f"unknown packet type: {packet}"
+            }).encode())
             return
 
-        script = f"/work/control-packets/{packet}.sh"
+        jobs.put(packet)
 
-        try:
-            print(f"[rmlmapper] triggering {script}", flush=True)
-
-            result = subprocess.run(
-                ["sh", script],
-                capture_output=True,
-                text=True,
-                timeout=120
-            )
-
-            if result.stdout:
-                print(result.stdout, end="", flush=True)
-            if result.stderr:
-                print(result.stderr, end="", file=sys.stderr, flush=True)
-
-            body = {
-                "packet": packet,
-                "returncode": result.returncode,
-                "stdout": result.stdout,
-                "stderr": result.stderr
-            }
-
-            self.send_response(200 if result.returncode == 0 else 500)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps(body).encode())
-
-        except Exception as e:
-            print(f"[rmlmapper] trigger error: {e}", file=sys.stderr, flush=True)
-            self.send_response(500)
-            self.send_header("Content-Type", "application/json")
-            self.end_headers()
-            self.wfile.write(json.dumps({"error": str(e)}).encode())
+        self.send_response(202)
+        self.send_header("Content-Type", "application/json")
+        self.end_headers()
+        self.wfile.write(json.dumps({
+            "status": "queued",
+            "packet": packet
+        }).encode())
 
     def log_message(self, format, *args):
         return
 
+
 if __name__ == "__main__":
-    server = HTTPServer(("0.0.0.0", 8080), Handler)
-    print("[rmlmapper] trigger server listening on :8080", flush=True)
+    server = ThreadingHTTPServer(("0.0.0.0", PORT), Handler)
+    print(f"Trigger server running on port {PORT}")
     server.serve_forever()
