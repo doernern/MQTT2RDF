@@ -31,32 +31,35 @@ services:
       - ./data:/data/share
 
   rmlmapper:
-    image: rmlio/rmlmapper-java:v8.0.0
+    build: ./rml
     container_name: rmlmapper
     depends_on:
       - nodered
       - graphdb
     restart: unless-stopped
     entrypoint: ["/bin/sh","/work/run.sh"]
+    ports:
+      - "8080:8080"
     volumes:
       - ./rml/run.sh:/work/run.sh:ro
+      - ./rml/trigger_server.py:/work/trigger_server.py:ro
 
       - ./rml/control-packets/publish.ttl:/work/control-packets/publish.ttl:ro
       - ./rml/control-packets/subscribe.ttl:/work/control-packets/subscribe.ttl:ro
       - ./rml/control-packets/unsubscribe.ttl:/work/control-packets/unsubscribe.ttl:ro
-      - ./rml/control-packets/connect.ttl:/work/control-packets/connect.ttl:ro      
+      - ./rml/control-packets/connect.ttl:/work/control-packets/connect.ttl:ro
       - ./rml/control-packets/connack.ttl:/work/control-packets/connack.ttl:ro
       - ./rml/control-packets/disconnect.ttl:/work/control-packets/disconnect.ttl:ro
       - ./rml/control-packets/puback.ttl:/work/control-packets/puback.ttl:ro
       - ./rml/control-packets/pubrel.ttl:/work/control-packets/pubrel.ttl:ro
       - ./rml/control-packets/pubrec.ttl:/work/control-packets/pubrec.ttl:ro
-      - ./rml/control-packets/pubcomp.ttl:/work/control-packets/pubcomp.ttl:ro      
+      - ./rml/control-packets/pubcomp.ttl:/work/control-packets/pubcomp.ttl:ro
       - ./rml/control-packets/suback.ttl:/work/control-packets/suback.ttl:ro
       - ./rml/control-packets/unsuback.ttl:/work/control-packets/unsuback.ttl:ro
-      - ./rml/control-packets/auth.ttl:/work/control-packets/auth.ttl:ro      
+      - ./rml/control-packets/auth.ttl:/work/control-packets/auth.ttl:ro
       - ./rml/control-packets/pingresp.ttl:/work/control-packets/pingresp.ttl:ro
       - ./rml/control-packets/pingreq.ttl:/work/control-packets/pingreq.ttl:ro
-      
+
       - ./rml/control-packets/publish.sh:/work/control-packets/publish.sh:ro
       - ./rml/control-packets/subscribe.sh:/work/control-packets/subscribe.sh:ro
       - ./rml/control-packets/unsubscribe.sh:/work/control-packets/unsubscribe.sh:ro

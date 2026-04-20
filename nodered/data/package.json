@@ -5,9 +5,10 @@
     "private": true,
     "dependencies": {
         "@arifhosan/node-red-contrib-mqtt-auto": "~2.2.2-1",
-        "node-red-contrib-aedes": "~0.15.0",
+        "node-red-contrib-aedes": "~1.2.0",
         "node-red-contrib-json-to-mqtt": "~1.0.3",
         "node-red-contrib-mqtt-dynamicsub": "~0.0.9",
-        "node-red-contrib-mqtt-gem": "~1.0.0"
+        "node-red-contrib-mqtt-gem": "~1.0.0",
+        "@flowfuse/node-red-dashboard": "^1.30.2"
     }
 }

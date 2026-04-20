@@ -6,25 +6,18 @@ OUT=/work/data/out/publish.ttl
 M=/work/control-packets/publish.ttl
 GDB=http://graphdb:7200/repositories/mqtt4ssn/statements
 
-last=""
-echo "[rmlmapper] watching $IN ..."
-while true; do
-  if [ -f "$IN" ]; then
-    now="$(stat -c %Y "$IN" 2>/dev/null || echo 0)"
-    if [ "$now" != "$last" ]; then
-      echo "[rmlmapper] change detected, mapping..."
-      # run mapping
-      java -jar /rmlmapper.jar -m "$M" -o "$OUT"
-      # push to GraphDB (create repo 'mqtt4ssn' first in Workbench)
-      if [ -f "$OUT" ]; then
-        echo "[rmlmapper] posting triples to GraphDB..."
-        curl -sS -X POST \
-          -H "Content-Type: text/turtle" \
-          --data-binary @"$OUT" \
-          "$GDB" >/dev/null || true
-      fi
-      last="$now"
-    fi
-  fi
-  sleep 3
-done
+if [ ! -f "$IN" ]; then
+  echo "[rmlmapper] PUBLISH skipped, input missing: $IN"
+  exit 0
+fi
+
+echo "[rmlmapper] PUBLISH mapping once..."
+java -jar /rmlmapper.jar -m "$M" -o "$OUT"
+
+if [ -f "$OUT" ]; then
+  echo "[rmlmapper] PUBLISH posting triples to GraphDB..."
+  curl -sS -X POST \
+    -H "Content-Type: text/turtle" \
+    --data-binary @"$OUT" \
+    "$GDB" >/dev/null
+fi

@@ -24,6 +24,13 @@
         "env": []
     },
     {
+        "id": "da70bb24b2881dca",
+        "type": "tab",
+        "label": "Semantic Analytics Dashboard",
+        "disabled": false,
+        "info": ""
+    },
+    {
         "id": "broker1",
         "type": "mqtt-broker",
         "name": "Local Mosquitto",
@@ -60,6 +67,123 @@
         },
         "userProps": "",
         "sessionExpiry": "10"
+    },
+    {
+        "id": "ui_base_main",
+        "type": "ui-base",
+        "name": "MQTT2RDF Semantic Analytics Framework",
+        "path": "/dashboard",
+        "appIcon": "",
+        "includeClientData": true,
+        "acceptsClientConfig": [
+            "ui-control",
+            "ui-notification"
+        ],
+        "showPathInSidebar": false,
+        "headerContent": "page",
+        "navigationStyle": "default",
+        "titleBarStyle": "default",
+        "showReconnectNotification": true,
+        "notificationDisplayTime": 5,
+        "showDisconnectNotification": true,
+        "allowInstall": true
+    },
+    {
+        "id": "ui_theme_main",
+        "type": "ui-theme",
+        "name": "MQTT4SSN Theme",
+        "colors": {
+            "surface": "#ffffff",
+            "primary": "#0094CE",
+            "bgPage": "#f3f4f6",
+            "groupBg": "#ffffff",
+            "groupOutline": "#d1d5db"
+        },
+        "sizes": {
+            "density": "default",
+            "pagePadding": "12px",
+            "groupGap": "12px",
+            "groupBorderRadius": "8px",
+            "widgetGap": "12px"
+        }
+    },
+    {
+        "id": "ui_page_main",
+        "type": "ui-page",
+        "name": "Semantic Analytics Dashboard",
+        "ui": "ui_base_main",
+        "path": "/mqtt2dash",
+        "icon": "graph-outline",
+        "layout": "grid",
+        "theme": "ui_theme_main",
+        "breakpoints": [
+            {
+                "name": "Default",
+                "px": "0",
+                "cols": "3"
+            },
+            {
+                "name": "Tablet",
+                "px": "576",
+                "cols": "6"
+            },
+            {
+                "name": "Small Desktop",
+                "px": "768",
+                "cols": "9"
+            },
+            {
+                "name": "Desktop",
+                "px": "1024",
+                "cols": "12"
+            }
+        ],
+        "order": 1,
+        "className": "",
+        "visible": "true",
+        "disabled": "false"
+    },
+    {
+        "id": "group_70ac722f",
+        "type": "ui-group",
+        "name": "Message content analytics",
+        "page": "ui_page_main",
+        "width": "12",
+        "height": "1",
+        "order": 1,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "group_4e7a34ac",
+        "type": "ui-group",
+        "name": "Semantic topic naming analytics",
+        "page": "ui_page_main",
+        "width": "12",
+        "height": "1",
+        "order": 2,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
+    },
+    {
+        "id": "group_098ddc74",
+        "type": "ui-group",
+        "name": "Transport diagnostics analytics",
+        "page": "ui_page_main",
+        "width": "12",
+        "height": "1",
+        "order": 3,
+        "showTitle": true,
+        "className": "",
+        "visible": "true",
+        "disabled": "false",
+        "groupType": "default"
     },
     {
         "id": "1950206633b62a22",
@@ -989,7 +1113,7 @@
         "fieldType": "msg",
         "format": "handlebars",
         "syntax": "plain",
-        "template": "\"Job_Start_ZS\";\"Job_Ende_ZS\";\"Griffpunkt_X\";\"Griffpunkt_Y\";\"Griffpunkt_Z\";\"Korrekturwert_X\";\"Korrekturwert_Y\";\"RFID\";\n20240928235844;20240928235953;0;1;1;A;10;00140;\n20240928235888;20240928235960;0;2;2;B;10;00140",
+        "template": "RFID;JobStart;JobEnd;GripPoint_X;GripPoint_Y;GripPoint_Z;Sensor;Actuator\nRFID_87A3F1;2025-12-03T09:15:02.120Z;2025-12-03T09:15:02.520Z;152.34;88.10;34.55;Sensor_37b;Actuator_20a\nRFID_87A3F2;2025-12-03T09:15:05.000Z;2025-12-03T09:15:05.410Z;151.90;87.95;34.60;Sensor_37b;Actuator_20a\nRFID_87A3F3;2025-12-03T09:15:08.210Z;2025-12-03T09:15:08.640Z;153.05;88.40;34.48;Sensor_37b;Actuator_20a",
         "output": "str",
         "x": 390,
         "y": 60,
@@ -1008,7 +1132,6 @@
         "id": "6fd1736003b1eb7d",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 0 / Retain 1 / CSV",
         "topic": "Test",
         "qos": "0",
@@ -1027,7 +1150,6 @@
         "id": "1fbb18c0c058b5dc",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 1 / Retain 1 / CSV",
         "topic": "Test",
         "qos": "1",
@@ -1046,7 +1168,6 @@
         "id": "6afa3144331bca45",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 1 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "1",
@@ -1065,7 +1186,6 @@
         "id": "ef5229fd9af3bb25",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 2 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "2",
@@ -1084,7 +1204,6 @@
         "id": "01d28c3d5c3881ae",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
-        "d": true,
         "name": "Broker / QoS 0 / Retain 0 / CSV",
         "topic": "Test",
         "qos": "0",
@@ -1100,25 +1219,6 @@
         "wires": []
     },
     {
-        "id": "6655e65b5b5b23a7",
-        "type": "mqtt in",
-        "z": "06f1f8169210d459",
-        "name": "",
-        "topic": "actuator",
-        "qos": "2",
-        "datatype": "auto-detect",
-        "broker": "broker1",
-        "nl": false,
-        "rap": true,
-        "rh": 0,
-        "inputs": 0,
-        "x": 140,
-        "y": 360,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "87810f29254d1299",
         "type": "inject",
         "z": "06f1f8169210d459",
@@ -1129,8 +1229,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 180,
-        "y": 500,
+        "x": 200,
+        "y": 420,
         "wires": [
             [
                 "720191d0d61f2231"
@@ -1148,8 +1248,8 @@
         "syntax": "plain",
         "template": "RFID;JobStart;JobEnd;GripPoint_X;GripPoint_Y;GripPoint_Z;Sensor;Actuator\nRFID_87A3F1;2025-12-03T09:15:02.120Z;2025-12-03T09:15:02.520Z;152.34;88.10;34.55;Sensor_37b;Actuator_20a\nRFID_87A3F2;2025-12-03T09:15:05.000Z;2025-12-03T09:15:05.410Z;151.90;87.95;34.60;Sensor_37b;Actuator_20a\nRFID_87A3F3;2025-12-03T09:15:08.210Z;2025-12-03T09:15:08.640Z;153.05;88.40;34.48;Sensor_37b;Actuator_20a",
         "output": "str",
-        "x": 390,
-        "y": 500,
+        "x": 410,
+        "y": 420,
         "wires": [
             [
                 "0f0ad79860fd7080"
@@ -1167,8 +1267,8 @@
         "once": false,
         "onceDelay": 0.1,
         "topic": "",
-        "x": 180,
-        "y": 580,
+        "x": 200,
+        "y": 500,
         "wires": [
             [
                 "55047bf24765447d"
@@ -1186,8 +1286,8 @@
         "syntax": "plain",
         "template": "RFID;JobStart;JobEnd;Correction_X;Correction_Y;Correction_Z;Sensor;Actuator\nRFID_87A3F1;2025-12-03T09:15:02.120Z;2025-12-03T09:15:02.520Z;-0.44;-0.15;+0.10;Sensor1;Actuator1;Sensor_37b;Actuator_20a\nRFID_87A3F2;2025-12-03T09:15:05.000Z;2025-12-03T09:15:05.410Z;-0.10;-0.05;+0.60;Sensor1;Actuator1;Sensor_37b;Actuator_20a\nRFID_87A3F3;2025-12-03T09:15:08.210Z;2025-12-03T09:15:08.640Z;+0.65;+0.30;+0.15;Sensor1;Actuator1;Sensor_37b;Actuator_20a",
         "output": "str",
-        "x": 390,
-        "y": 580,
+        "x": 410,
+        "y": 500,
         "wires": [
             [
                 "644869caea526090"
@@ -1198,6 +1298,7 @@
         "id": "0f0ad79860fd7080",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "sensor",
         "qos": "2",
@@ -1208,14 +1309,15 @@
         "correl": " CorrelationData",
         "expiry": "22",
         "broker": "broker1",
-        "x": 670,
-        "y": 500,
+        "x": 690,
+        "y": 420,
         "wires": []
     },
     {
         "id": "644869caea526090",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "actuator",
         "qos": "2",
@@ -1226,8 +1328,8 @@
         "correl": " CorrelationData",
         "expiry": "22",
         "broker": "broker1",
-        "x": 670,
-        "y": 580,
+        "x": 690,
+        "y": 500,
         "wires": []
     },
     {
@@ -1330,9 +1432,7 @@
         "x": 360,
         "y": 480,
         "wires": [
-            [
-                "074934dba9111a79"
-            ],
+            [],
             [
                 "114bc3f73916dcd1"
             ],
@@ -1342,9 +1442,7 @@
             [
                 "48c5fed0e5f300f5"
             ],
-            [
-                "074934dba9111a79"
-            ],
+            [],
             [
                 "89e98a4fbc452ae1"
             ],
@@ -1727,7 +1825,9 @@
         "x": 1400,
         "y": 480,
         "wires": [
-            []
+            [
+                "build-sh-from-path"
+            ]
         ]
     },
     {
@@ -2238,40 +2338,1059 @@
         ]
     },
     {
-        "id": "8d8ed53e5fcab7b2",
-        "type": "change",
+        "id": "build-sh-from-path",
+        "type": "function",
         "z": "bd14a179316b9057",
-        "name": "Structure Observations + Meta",
-        "rules": [
-            {
-                "t": "set",
-                "p": "observationCollection",
-                "pt": "msg",
-                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(Job_Start_ZS),\t   \"EndTime\": $string(Job_Ende_ZS),\t   \"Observation\": [\t       {\t           \"Property\":\"Griffpunkt_X\",\t           \"Result\":$string(Griffpunkt_X)\t           },\t       {\t           \"Property\":\"Griffpunkt_Y\",\t           \"Result\":$string(Griffpunkt_Y)\t           },\t       {\t           \"Property\":\"Griffpunkt_Z\",\t           \"Result\":$string(Griffpunkt_Z)\t           },\t       {\t           \"Property\":\"Korrekturwert_X\",\t           \"Result\":$string(Korrekturwert_X)\t           },\t       {\t           \"Property\":\"Korrekturwert_Y\",\t           \"Result\":$string(Korrekturwert_Y)\t           }\t  ]\t}\t",
-                "tot": "jsonata"
-            },
-            {
-                "t": "delete",
-                "p": "payload",
-                "pt": "msg"
-            },
-            {
-                "t": "move",
-                "p": "columns",
-                "pt": "msg",
-                "to": "publishPacket.payload.encodedFields",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1390,
-        "y": 1240,
+        "name": "Build SH from payload.path",
+        "func": "const inputPath = msg.payload.path;\n\nif (!inputPath || typeof inputPath !== \"string\") {\n    node.error(\"payload.path fehlt\", msg);\n    return null;\n}\n\nconst fileName = inputPath.split(\"/\").pop();\nconst baseName = fileName.replace(/\\.json$/i, \"\").toLowerCase();\n\n// Nur Script-Pfad, kein führendes \"sh \"\nmsg.payload = `/rml/control-packets/${baseName}.sh`;\nmsg.script = msg.payload;\nmsg.packetType = baseName;\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1500,
+        "y": 320,
+        "wires": [
+            [
+                "build-rml-trigger"
+            ]
+        ]
+    },
+    {
+        "id": "build-rml-trigger",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Build RML trigger",
+        "func": "const inputPath =\n    msg.payload?.path ||\n    msg.filename ||\n    msg.path ||\n    (typeof msg.payload === \"string\" ? msg.payload : null);\n\nif (!inputPath || typeof inputPath !== \"string\") {\n    node.error(\"Kein Dateipfad gefunden in msg.payload.path, msg.filename, msg.path oder msg.payload\", msg);\n    return null;\n}\n\nconst fileName = inputPath.split(\"/\").pop();\nconst baseName = fileName.replace(/\\.json$/i, \"\").toLowerCase();\n\nmsg.method = \"POST\";\nmsg.url = `http://rmlmapper:8080/map/${baseName}`;\nmsg.headers = { \"Content-Type\": \"application/json\" };\nmsg.payload = { path: inputPath, packetType: baseName };\n\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1530,
+        "y": 200,
+        "wires": [
+            [
+                "http-trigger-rml"
+            ]
+        ]
+    },
+    {
+        "id": "http-trigger-rml",
+        "type": "http request",
+        "z": "bd14a179316b9057",
+        "name": "Trigger RMLMapper",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "persist": false,
+        "senderr": true,
+        "x": 1780,
+        "y": 200,
+        "wires": [
+            [
+                "debug-rml-response",
+                "debug-rml-full"
+            ]
+        ]
+    },
+    {
+        "id": "debug-rml-response",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "RML Response Body",
+        "active": true,
+        "tosidebar": true,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2060,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "debug-rml-full",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "RML Full Msg",
+        "active": true,
+        "tosidebar": true,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2040,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "http_db96a8a5",
+        "type": "http request",
+        "z": "da70bb24b2881dca",
+        "name": "GraphDB SPARQL",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": true,
+        "headers": [],
+        "x": 890,
+        "y": 140,
+        "wires": [
+            [
+                "prep_ed119a95"
+            ]
+        ]
+    },
+    {
+        "id": "prep_ed119a95",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Prepare Message content analytics view",
+        "func": "function short(v) {\n    if (v === null || v === undefined) return \"\";\n    const s = String(v);\n    const hash = s.lastIndexOf(\"#\");\n    const slash = s.lastIndexOf(\"/\");\n    const idx = Math.max(hash, slash);\n    return idx >= 0 ? s.substring(idx + 1) : s;\n}\n\nconst bindings = (((msg.payload || {}).results || {}).bindings) || [];\nconst columns = msg.meta.columns || [];\nconst rows = bindings.map(b => {\n    const row = {};\n    columns.forEach(c => row[c] = short(b[c] && b[c].value));\n    return row;\n});\n\nlet counts = [];\nif (msg.meta.countKey) {\n    const map = {};\n    rows.forEach(r => {\n        const key = r[msg.meta.countKey] || \"(blank)\";\n        map[key] = (map[key] || 0) + 1;\n    });\n    const max = Math.max(1, ...Object.values(map), 1);\n    counts = Object.entries(map)\n        .sort((a,b) => b[1] - a[1])\n        .map(([label, value]) => ({\n            label,\n            value,\n            percent: Math.round((value / max) * 100)\n        }));\n}\n\nmsg.payload = {\n    title: msg.meta.title,\n    description: msg.meta.description,\n    scenario: msg.meta.scenario,\n    columns,\n    rows,\n    counts\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1220,
+        "y": 140,
+        "wires": [
+            [
+                "template_a01a40db",
+                "debug_d84ac9a4"
+            ]
+        ]
+    },
+    {
+        "id": "template_a01a40db",
+        "type": "ui-template",
+        "z": "da70bb24b2881dca",
+        "group": "group_70ac722f",
+        "page": "",
+        "ui": "",
+        "name": "Message content analytics view",
+        "order": 4,
+        "width": "12",
+        "height": "16",
+        "head": "",
+        "format": "<template>\n  <div class=\"wrap\" v-if=\"msg.payload\">\n    <div class=\"header\">\n      <div>\n        <div class=\"eyebrow\">{{ msg.payload.scenario }}</div>\n        <h3>{{ msg.payload.title }}</h3>\n        <p>{{ msg.payload.description }}</p>\n      </div>\n      <v-chip color=\"primary\" variant=\"tonal\">{{ msg.payload.rows?.length || 0 }} rows</v-chip>\n    </div>\n\n    <div v-if=\"msg.payload.counts?.length\">\n      <div class=\"section-title\">Summary</div>\n      <div v-for=\"item in msg.payload.counts\" :key=\"item.label\" class=\"bar-row\">\n        <div class=\"bar-labels\">\n          <span>{{ item.label }}</span>\n          <strong>{{ item.value }}</strong>\n        </div>\n        <v-progress-linear :model-value=\"item.percent\" height=\"18\" rounded></v-progress-linear>\n      </div>\n    </div>\n\n    <div class=\"section-title\">Rows</div>\n    <div class=\"table-wrap\">\n      <table>\n        <thead>\n          <tr>\n            <th v-for=\"c in msg.payload.columns\" :key=\"c\">{{ c }}</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr v-for=\"(row, idx) in msg.payload.rows\" :key=\"idx\">\n            <td v-for=\"c in msg.payload.columns\" :key=\"c\">{{ row[c] }}</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n  </div>\n</template>\n\n<style>\n.wrap { padding: 8px; }\n.eyebrow { font-size: 0.8rem; font-weight: 600; color: #0094CE; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }\n.header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom: 12px; }\nh3 { margin: 0 0 4px 0; }\np { margin: 0; color: #555; }\n.section-title { font-weight: 600; margin: 14px 0 8px 0; }\n.bar-row { margin-bottom: 10px; }\n.bar-labels { display:flex; justify-content:space-between; gap: 12px; margin-bottom:4px; }\n.table-wrap { overflow:auto; max-height:420px; border:1px solid #ddd; border-radius:8px; }\ntable { width:100%; border-collapse: collapse; }\nthead { position: sticky; top: 0; background: #fafafa; z-index: 1; }\nth, td { text-align:left; padding:8px; border-bottom:1px solid #eee; white-space: nowrap; }\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1610,
+        "y": 140,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "debug_d84ac9a4",
+        "type": "debug",
+        "z": "da70bb24b2881dca",
+        "name": "Message content analytics debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1620,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "uibtn_d29c891c",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_70ac722f",
+        "name": "",
+        "label": "Load content formats",
+        "order": 1,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-code-json",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 100,
+        "wires": [
+            [
+                "build_b1eb2cbe"
+            ]
+        ]
+    },
+    {
+        "id": "build_b1eb2cbe",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Message content formats query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?message ?content ?type ?encoding ?delimiter WHERE {\n  ?message a mqtt:ApplicationMessage .\n  OPTIONAL { ?message mqtt:hasApplicationContent ?content }\n  OPTIONAL { ?message mqtt:hasApplicationContentType ?type }\n  OPTIONAL { ?message mqtt:hasApplicationEncoding ?encoding }\n  OPTIONAL { ?message mqtt:hasApplicationContentDelimiter ?delimiter }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Message content formats\",\n    scenario: \"Usage Scenario: Message Content\",\n    description: \"Shows heterogeneous message payload representations, content type, encoding and delimiters for reuse-ready parsing across deployments.\",\n    columns: [\"message\", \"content\", \"type\", \"encoding\", \"delimiter\"],\n    countKey: \"type\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "http_db96a8a5"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_4cbcee4c",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_70ac722f",
+        "name": "",
+        "label": "Load activity semantics",
+        "order": 2,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-chart-timeline-variant",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 210,
+        "y": 160,
+        "wires": [
+            [
+                "build_7ad4f222"
+            ]
+        ]
+    },
+    {
+        "id": "build_7ad4f222",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Encoded activity semantics query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nSELECT ?message ?activity ?member ?FOI ?property WHERE {\n  ?message a mqtt:ApplicationMessage ;\n           ?applicationMessageEncodesActivity ?activity .\n  ?activity a mqtt:Activity .\n  OPTIONAL { ?activity sosa:hasFeatureOfInterest ?FOI }\n  OPTIONAL { ?activity sosa:hasMember ?member }\n  OPTIONAL { ?member sosa:observedProperty ?property }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Encoded activity semantics\",\n    scenario: \"Usage Scenario: Message Content\",\n    description: \"Connects application messages with activities, features of interest and observed properties so heterogeneous payloads become queryable on shared semantics.\",\n    columns: [\"message\", \"activity\", \"member\", \"FOI\", \"property\"],\n    countKey: \"property\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 160,
+        "wires": [
+            [
+                "http_db96a8a5"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_b89dd1b3",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_70ac722f",
+        "name": "",
+        "label": "Load transport lineage",
+        "order": 3,
+        "width": "4",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-transit-connection-variant",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 220,
+        "wires": [
+            [
+                "build_404b0f55"
+            ]
+        ]
+    },
+    {
+        "id": "build_404b0f55",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Application message lineage query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?message ?payload ?packet ?client ?broker WHERE {\n  ?message a mqtt:ApplicationMessage ;\n           mqtt:isApplicationMessageOf ?payload .\n  ?payload mqtt:isPublishPayloadOf ?packet .\n  OPTIONAL { ?client mqtt:sendsControlPacket ?packet . ?client a mqtt:Client }\n  OPTIONAL { ?broker mqtt:sendsControlPacket ?packet . ?broker a mqtt:Broker }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Application message lineage\",\n    scenario: \"Usage Scenario: Message Content\",\n    description: \"Provides semantic end-to-end traceability from application message to publish payload, transport packet, client and broker.\",\n    columns: [\"message\", \"payload\", \"packet\", \"client\", \"broker\"],\n    countKey: \"packet\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 220,
+        "wires": [
+            [
+                "http_db96a8a5"
+            ]
+        ]
+    },
+    {
+        "id": "http_416f3eae",
+        "type": "http request",
+        "z": "da70bb24b2881dca",
+        "name": "GraphDB SPARQL",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": true,
+        "headers": [],
+        "x": 890,
+        "y": 360,
+        "wires": [
+            [
+                "prep_9b5fe6fa"
+            ]
+        ]
+    },
+    {
+        "id": "prep_9b5fe6fa",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Prepare Semantic topic naming analytics view",
+        "func": "function short(v) {\n    if (v === null || v === undefined) return \"\";\n    const s = String(v);\n    const hash = s.lastIndexOf(\"#\");\n    const slash = s.lastIndexOf(\"/\");\n    const idx = Math.max(hash, slash);\n    return idx >= 0 ? s.substring(idx + 1) : s;\n}\n\nconst bindings = (((msg.payload || {}).results || {}).bindings) || [];\nconst columns = msg.meta.columns || [];\nconst rows = bindings.map(b => {\n    const row = {};\n    columns.forEach(c => row[c] = short(b[c] && b[c].value));\n    return row;\n});\n\nlet counts = [];\nif (msg.meta.countKey) {\n    const map = {};\n    rows.forEach(r => {\n        const key = r[msg.meta.countKey] || \"(blank)\";\n        map[key] = (map[key] || 0) + 1;\n    });\n    const max = Math.max(1, ...Object.values(map), 1);\n    counts = Object.entries(map)\n        .sort((a,b) => b[1] - a[1])\n        .map(([label, value]) => ({\n            label,\n            value,\n            percent: Math.round((value / max) * 100)\n        }));\n}\n\nmsg.payload = {\n    title: msg.meta.title,\n    description: msg.meta.description,\n    scenario: msg.meta.scenario,\n    columns,\n    rows,\n    counts\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1240,
+        "y": 360,
+        "wires": [
+            [
+                "template_ff5340b8",
+                "debug_860ecd3e"
+            ]
+        ]
+    },
+    {
+        "id": "template_ff5340b8",
+        "type": "ui-template",
+        "z": "da70bb24b2881dca",
+        "group": "group_4e7a34ac",
+        "page": "",
+        "ui": "",
+        "name": "Semantic topic naming analytics view",
+        "order": 5,
+        "width": "12",
+        "height": "16",
+        "head": "",
+        "format": "<template>\n  <div class=\"wrap\" v-if=\"msg.payload\">\n    <div class=\"header\">\n      <div>\n        <div class=\"eyebrow\">{{ msg.payload.scenario }}</div>\n        <h3>{{ msg.payload.title }}</h3>\n        <p>{{ msg.payload.description }}</p>\n      </div>\n      <v-chip color=\"primary\" variant=\"tonal\">{{ msg.payload.rows?.length || 0 }} rows</v-chip>\n    </div>\n\n    <div v-if=\"msg.payload.counts?.length\">\n      <div class=\"section-title\">Summary</div>\n      <div v-for=\"item in msg.payload.counts\" :key=\"item.label\" class=\"bar-row\">\n        <div class=\"bar-labels\">\n          <span>{{ item.label }}</span>\n          <strong>{{ item.value }}</strong>\n        </div>\n        <v-progress-linear :model-value=\"item.percent\" height=\"18\" rounded></v-progress-linear>\n      </div>\n    </div>\n\n    <div class=\"section-title\">Rows</div>\n    <div class=\"table-wrap\">\n      <table>\n        <thead>\n          <tr>\n            <th v-for=\"c in msg.payload.columns\" :key=\"c\">{{ c }}</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr v-for=\"(row, idx) in msg.payload.rows\" :key=\"idx\">\n            <td v-for=\"c in msg.payload.columns\" :key=\"c\">{{ row[c] }}</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n  </div>\n</template>\n\n<style>\n.wrap { padding: 8px; }\n.eyebrow { font-size: 0.8rem; font-weight: 600; color: #0094CE; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }\n.header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom: 12px; }\nh3 { margin: 0 0 4px 0; }\np { margin: 0; color: #555; }\n.section-title { font-weight: 600; margin: 14px 0 8px 0; }\n.bar-row { margin-bottom: 10px; }\n.bar-labels { display:flex; justify-content:space-between; gap: 12px; margin-bottom:4px; }\n.table-wrap { overflow:auto; max-height:420px; border:1px solid #ddd; border-radius:8px; }\ntable { width:100%; border-collapse: collapse; }\nthead { position: sticky; top: 0; background: #fafafa; z-index: 1; }\nth, td { text-align:left; padding:8px; border-bottom:1px solid #eee; white-space: nowrap; }\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1630,
+        "y": 360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "debug_860ecd3e",
+        "type": "debug",
+        "z": "da70bb24b2881dca",
+        "name": "Semantic topic naming analytics debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "uibtn_b05b79b2",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_4e7a34ac",
+        "name": "",
+        "label": "Load sensor topics",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-radar",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 190,
+        "y": 300,
+        "wires": [
+            [
+                "build_ff831f70"
+            ]
+        ]
+    },
+    {
+        "id": "build_ff831f70",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Sensor to topic mapping query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nSELECT ?sensor ?topic WHERE {\n  ?sensor a sosa:Sensor ;\n          mqtt:observesTopic ?topic .\n  ?topic a mqtt:Topic .\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Sensor to topic mapping\",\n    scenario: \"Usage Scenario: Semantic Topic Naming\",\n    description: \"Shows which semantic sensors publish to which MQTT topics, enabling discovery of streams for particular observations.\",\n    columns: [\"sensor\", \"topic\"],\n    countKey: \"topic\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 300,
+        "wires": [
+            [
+                "http_416f3eae"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_906ccfca",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_4e7a34ac",
+        "name": "",
+        "label": "Load actuator topics",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-robot-industrial",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 360,
+        "wires": [
+            [
+                "build_c578f0f4"
+            ]
+        ]
+    },
+    {
+        "id": "build_c578f0f4",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Actuator subscription topics query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nSELECT ?actuator ?topic WHERE {\n  ?actuator a sosa:Actuator ;\n            mqtt:listensToTopic ?topic .\n  ?topic a mqtt:Topic .\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Actuator subscription topics\",\n    scenario: \"Usage Scenario: Semantic Topic Naming\",\n    description: \"Shows which semantic actuators listen to which MQTT topics so control channels can be reconfigured or audited.\",\n    columns: [\"actuator\", \"topic\"],\n    countKey: \"topic\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 360,
+        "wires": [
+            [
+                "http_416f3eae"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_191a479d",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_4e7a34ac",
+        "name": "",
+        "label": "Load topic subjects",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-tag-multiple",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 190,
+        "y": 420,
+        "wires": [
+            [
+                "build_c2240ade"
+            ]
+        ]
+    },
+    {
+        "id": "build_c2240ade",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Topic subject semantics query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX sosa: <http://www.w3.org/ns/sosa/>\nSELECT ?topic ?subject ?type WHERE {\n  ?topic a mqtt:Topic ;\n         mqtt:hasSubject ?subject .\n  ?subject a ?type .\n  FILTER( STRSTARTS(STR(?type), STR(sosa:)) )\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Topic subject semantics\",\n    scenario: \"Usage Scenario: Semantic Topic Naming\",\n    description: \"Explains topic naming through linked observation or actuation subjects instead of vendor-specific naming conventions.\",\n    columns: [\"topic\", \"subject\", \"type\"],\n    countKey: \"type\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 420,
+        "wires": [
+            [
+                "http_416f3eae"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_2124050b",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_4e7a34ac",
+        "name": "",
+        "label": "Load filter matches",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-filter-cog",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 190,
+        "y": 480,
+        "wires": [
+            [
+                "build_f8a56874"
+            ]
+        ]
+    },
+    {
+        "id": "build_f8a56874",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Semantic stream discovery query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?filter ?topic WHERE {\n  ?filter a mqtt:TopicFilter ;\n          mqtt:matchesTopic ?topic .\n  ?topic a mqtt:Topic .\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Semantic stream discovery\",\n    scenario: \"Usage Scenario: Semantic Topic Naming\",\n    description: \"Shows which topic filters resolve to which concrete topics, useful for auto-discovery and broad subscriptions for a property or feature of interest.\",\n    columns: [\"filter\", \"topic\"],\n    countKey: \"filter\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 480,
+        "wires": [
+            [
+                "http_416f3eae"
+            ]
+        ]
+    },
+    {
+        "id": "http_40f68e12",
+        "type": "http request",
+        "z": "da70bb24b2881dca",
+        "name": "GraphDB SPARQL",
+        "method": "use",
+        "ret": "obj",
+        "paytoqs": "ignore",
+        "url": "",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": true,
+        "headers": [],
+        "x": 890,
+        "y": 660,
+        "wires": [
+            [
+                "prep_38be47e4"
+            ]
+        ]
+    },
+    {
+        "id": "prep_38be47e4",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Prepare Transport diagnostics analytics view",
+        "func": "function short(v) {\n    if (v === null || v === undefined) return \"\";\n    const s = String(v);\n    const hash = s.lastIndexOf(\"#\");\n    const slash = s.lastIndexOf(\"/\");\n    const idx = Math.max(hash, slash);\n    return idx >= 0 ? s.substring(idx + 1) : s;\n}\n\nconst bindings = (((msg.payload || {}).results || {}).bindings) || [];\nconst columns = msg.meta.columns || [];\nconst rows = bindings.map(b => {\n    const row = {};\n    columns.forEach(c => row[c] = short(b[c] && b[c].value));\n    return row;\n});\n\nlet counts = [];\nif (msg.meta.countKey) {\n    const map = {};\n    rows.forEach(r => {\n        const key = r[msg.meta.countKey] || \"(blank)\";\n        map[key] = (map[key] || 0) + 1;\n    });\n    const max = Math.max(1, ...Object.values(map), 1);\n    counts = Object.entries(map)\n        .sort((a,b) => b[1] - a[1])\n        .map(([label, value]) => ({\n            label,\n            value,\n            percent: Math.round((value / max) * 100)\n        }));\n}\n\nmsg.payload = {\n    title: msg.meta.title,\n    description: msg.meta.description,\n    scenario: msg.meta.scenario,\n    columns,\n    rows,\n    counts\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1230,
+        "y": 660,
+        "wires": [
+            [
+                "template_c9317cce",
+                "debug_f0b0c3a8"
+            ]
+        ]
+    },
+    {
+        "id": "template_c9317cce",
+        "type": "ui-template",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "page": "",
+        "ui": "",
+        "name": "Transport diagnostics analytics view",
+        "order": 6,
+        "width": "12",
+        "height": "16",
+        "head": "",
+        "format": "<template>\n  <div class=\"wrap\" v-if=\"msg.payload\">\n    <div class=\"header\">\n      <div>\n        <div class=\"eyebrow\">{{ msg.payload.scenario }}</div>\n        <h3>{{ msg.payload.title }}</h3>\n        <p>{{ msg.payload.description }}</p>\n      </div>\n      <v-chip color=\"primary\" variant=\"tonal\">{{ msg.payload.rows?.length || 0 }} rows</v-chip>\n    </div>\n\n    <div v-if=\"msg.payload.counts?.length\">\n      <div class=\"section-title\">Summary</div>\n      <div v-for=\"item in msg.payload.counts\" :key=\"item.label\" class=\"bar-row\">\n        <div class=\"bar-labels\">\n          <span>{{ item.label }}</span>\n          <strong>{{ item.value }}</strong>\n        </div>\n        <v-progress-linear :model-value=\"item.percent\" height=\"18\" rounded></v-progress-linear>\n      </div>\n    </div>\n\n    <div class=\"section-title\">Rows</div>\n    <div class=\"table-wrap\">\n      <table>\n        <thead>\n          <tr>\n            <th v-for=\"c in msg.payload.columns\" :key=\"c\">{{ c }}</th>\n          </tr>\n        </thead>\n        <tbody>\n          <tr v-for=\"(row, idx) in msg.payload.rows\" :key=\"idx\">\n            <td v-for=\"c in msg.payload.columns\" :key=\"c\">{{ row[c] }}</td>\n          </tr>\n        </tbody>\n      </table>\n    </div>\n  </div>\n</template>\n\n<style>\n.wrap { padding: 8px; }\n.eyebrow { font-size: 0.8rem; font-weight: 600; color: #0094CE; margin-bottom: 4px; text-transform: uppercase; letter-spacing: .04em; }\n.header { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom: 12px; }\nh3 { margin: 0 0 4px 0; }\np { margin: 0; color: #555; }\n.section-title { font-weight: 600; margin: 14px 0 8px 0; }\n.bar-row { margin-bottom: 10px; }\n.bar-labels { display:flex; justify-content:space-between; gap: 12px; margin-bottom:4px; }\n.table-wrap { overflow:auto; max-height:420px; border:1px solid #ddd; border-radius:8px; }\ntable { width:100%; border-collapse: collapse; }\nthead { position: sticky; top: 0; background: #fafafa; z-index: 1; }\nth, td { text-align:left; padding:8px; border-bottom:1px solid #eee; white-space: nowrap; }\n</style>",
+        "storeOutMessages": true,
+        "passthru": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "className": "",
+        "x": 1630,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "debug_f0b0c3a8",
+        "type": "debug",
+        "z": "da70bb24b2881dca",
+        "name": "Transport diagnostics analytics debug",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1630,
+        "y": 600,
+        "wires": []
+    },
+    {
+        "id": "uibtn_88e96dda",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "name": "",
+        "label": "Load TLS connections",
+        "order": 1,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-lock-network",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 560,
+        "wires": [
+            [
+                "build_0e1c02ea"
+            ]
+        ]
+    },
+    {
+        "id": "build_0e1c02ea",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build TLS connection paths query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?connection ?tls ?client ?broker WHERE {\n  ?connection a mqtt:NetworkConnection .\n  OPTIONAL { ?connection mqtt:usesTLS ?tls }\n  OPTIONAL { ?connection mqtt:isInitiatedBy ?client }\n  OPTIONAL { ?broker mqtt:isAcceptedBy ?connection }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"TLS connection paths\",\n    scenario: \"Usage Scenario: Malformed Packets / Transport Diagnostics\",\n    description: \"Highlights which network connections use TLS and which clients and brokers participate, helping diagnose transport context around failures.\",\n    columns: [\"connection\", \"tls\", \"client\", \"broker\"],\n    countKey: \"tls\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 560,
+        "wires": [
+            [
+                "http_40f68e12"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_ee18868b",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "name": "",
+        "label": "Load QoS profile",
+        "order": 2,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-signal-distance-variant",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 190,
+        "y": 620,
+        "wires": [
+            [
+                "build_93c7c815"
+            ]
+        ]
+    },
+    {
+        "id": "build_93c7c815",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build QoS configuration profile query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?entity ?qos WHERE {\n  { ?entity a mqtt:PublishFixedHeader ; mqtt:hasQoSLevel ?qos . }\n  UNION\n  { ?entity a mqtt:SubscriptionEntry ; mqtt:hasQoSLevel ?qos . }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"QoS configuration profile\",\n    scenario: \"Usage Scenario: Malformed Packets / Transport Diagnostics\",\n    description: \"Surfaces QoS levels in publish headers and subscription entries to investigate delivery guarantees and missing values.\",\n    columns: [\"entity\", \"qos\"],\n    countKey: \"qos\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 530,
+        "y": 620,
+        "wires": [
+            [
+                "http_40f68e12"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_f66777eb",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "name": "",
+        "label": "Load publish flags",
+        "order": 3,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-flag-checkered",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 190,
+        "y": 680,
+        "wires": [
+            [
+                "build_a25025e5"
+            ]
+        ]
+    },
+    {
+        "id": "build_a25025e5",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Publish packet flags query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nSELECT ?packet ?retain ?dup WHERE {\n  ?packet a mqtt:PublishPacket ;\n          mqtt:hasPublishFixedHeader ?header .\n  OPTIONAL { ?header mqtt:hasRetainFlag ?retain }\n  OPTIONAL { ?header mqtt:hasDUPFlag ?dup }\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Publish packet flags\",\n    scenario: \"Usage Scenario: Malformed Packets / Transport Diagnostics\",\n    description: \"Shows DUP and Retain flags for publish packets so retries and retained-state side effects can be inspected during fault analysis.\",\n    columns: [\"packet\", \"retain\", \"dup\"],\n    countKey: \"dup\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 680,
+        "wires": [
+            [
+                "http_40f68e12"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_b5b02df2",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "name": "",
+        "label": "Load packet identifiers",
+        "order": 4,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-identifier",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 740,
+        "wires": [
+            [
+                "build_a65f9bcb"
+            ]
+        ]
+    },
+    {
+        "id": "build_a65f9bcb",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Packet identifier traceability query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?packet ?type ?id WHERE {\n  ?packet a mqtt:ControlPacket ;\n          a ?type ;\n          mqtt:hasVariableHeader ?variable .\n  ?variable mqtt:hasPacketIdentifier ?id .\n  ?type rdfs:subClassOf* mqtt:ControlPacket .\n  FILTER( STRSTARTS(STR(?type), STR(mqtt:)) )\n  FILTER( ?type != mqtt:ControlPacket )\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Packet identifier traceability\",\n    scenario: \"Usage Scenario: Malformed Packets / Transport Diagnostics\",\n    description: \"Makes correlation of requests, acknowledgements and retries easier by exposing packet identifiers across control packet types.\",\n    columns: [\"packet\", \"type\", \"id\"],\n    countKey: \"type\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 540,
+        "y": 740,
+        "wires": [
+            [
+                "http_40f68e12"
+            ]
+        ]
+    },
+    {
+        "id": "uibtn_91c2cff0",
+        "type": "ui-button",
+        "z": "da70bb24b2881dca",
+        "group": "group_098ddc74",
+        "name": "",
+        "label": "Load packet structure",
+        "order": 5,
+        "width": "3",
+        "height": "1",
+        "emulateClick": false,
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "mdi-file-tree",
+        "iconPosition": "left",
+        "payload": "",
+        "payloadType": "date",
+        "topic": "topic",
+        "topicType": "msg",
+        "buttonColor": "",
+        "textColor": "",
+        "iconColor": "",
+        "enableClick": true,
+        "enablePointerdown": false,
+        "pointerdownPayload": "",
+        "pointerdownPayloadType": "str",
+        "enablePointerup": false,
+        "pointerupPayload": "",
+        "pointerupPayloadType": "str",
+        "x": 200,
+        "y": 800,
+        "wires": [
+            [
+                "build_5f0e8f80"
+            ]
+        ]
+    },
+    {
+        "id": "build_5f0e8f80",
+        "type": "function",
+        "z": "da70bb24b2881dca",
+        "name": "Build Control packet structure query",
+        "func": "const graphdbBase = env.get(\"GRAPHDB_BASE\") || \"http://graphdb:7200\";\nconst repo = env.get(\"GRAPHDB_REPO\") || \"mqtt4ssn\";\nconst query = `PREFIX mqtt: <https://doernern.github.io/MQTT4SSNOntology/MQTT4SSN.owl#>\nPREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>\nSELECT ?packet ?type ?fixed ?variable ?payload WHERE {\n  ?packet a mqtt:ControlPacket ;\n          a ?type .\n  OPTIONAL { ?packet mqtt:hasFixedHeader ?fixed }\n  OPTIONAL { ?packet mqtt:hasVariableHeader ?variable }\n  OPTIONAL { ?packet mqtt:hasPayload ?payload }\n  ?type rdfs:subClassOf* mqtt:ControlPacket .\n  FILTER( STRSTARTS(STR(?type), STR(mqtt:)) )\n  FILTER( ?type != mqtt:ControlPacket )\n}`;\nmsg.method = \"POST\";\nmsg.url = `${graphdbBase}/repositories/${repo}`;\nmsg.headers = {\n    \"Content-Type\": \"application/x-www-form-urlencoded\",\n    \"Accept\": \"application/sparql-results+json\"\n};\nmsg.payload = \"query=\" + encodeURIComponent(query);\nmsg.meta = {\n    title: \"Control packet structure\",\n    scenario: \"Usage Scenario: Malformed Packets / Transport Diagnostics\",\n    description: \"Shows fixed headers, variable headers and payload presence as a practical proxy for malformed-packet investigation when explicit error events are absent.\",\n    columns: [\"packet\", \"type\", \"fixed\", \"variable\", \"payload\"],\n    countKey: \"type\"\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 520,
+        "y": 800,
+        "wires": [
+            [
+                "http_40f68e12"
+            ]
         ]
     }
 ]
