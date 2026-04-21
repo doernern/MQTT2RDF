@@ -2,12 +2,12 @@
 set -eu
 
 PACKET="$1"
-
 IN="/work/data/in/${PACKET}.json"
 OUT="/work/data/out/${PACKET}.ttl"
 MAP="/work/control-packets/${PACKET}.ttl"
-
 GDB="http://graphdb:7200/repositories/mqtt4ssn/statements"
+
+start_ts="$(date +%s)"
 
 echo "[INFO] Processing $PACKET"
 
@@ -28,4 +28,5 @@ curl -sS --fail \
   --data-binary @"$OUT" \
   "$GDB" > /dev/null
 
-echo "[OK] Done $PACKET"
+end_ts="$(date +%s)"
+echo "[OK] Done $PACKET dur_s=$((end_ts-start_ts))"
