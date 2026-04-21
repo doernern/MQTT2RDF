@@ -1371,6 +1371,7 @@
         "id": "0f0ad79860fd7080",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "sensor",
         "qos": "2",
@@ -1389,6 +1390,7 @@
         "id": "644869caea526090",
         "type": "mqtt out",
         "z": "06f1f8169210d459",
+        "d": true,
         "name": "Broker / QoS 2 / Retain 1 / CSV",
         "topic": "actuator",
         "qos": "2",
@@ -1521,10 +1523,7 @@
                 "afd5fd5a62955b88"
             ],
             [
-                "6e37994a9d321ff7",
-                "f3229f753b385c50",
-                "df24496853482457",
-                "7640cd5ecdafef9c"
+                "6e37994a9d321ff7"
             ],
             [],
             [],
@@ -1966,7 +1965,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "PUBACK",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/puback.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBACK\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubackReasonCode: msg.req.body.reason ?? null,\n\n            pubackProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/puback.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    pubackPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBACK\",\n            reserved: null,\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            packetIdentifier: null,\n            pubackReasonCode: msg.req.body.reason ?? null,\n\n            pubackProperties: {\n                propertyLength: null,\n                reasonString: null,\n                userProperty: null,\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nmsg.packet = \"puback\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1978,7 +1977,8 @@
         "wires": [
             [
                 "34fb166b477cb504",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -2308,7 +2308,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "CONNACK",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connack.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connackPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNACK\",\n            reserved: null,\n            remainingLength: null \n        },\n\n        variableHeader: {\n            connackFlags: {\n                reserved: null,\n                sessionPresent: null\n            },\n\n            connackReasonCode: msg.payload.event ?? null,\n\n            connackProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: msg.payload.expiry_interval ?? null,\n                receiveMaximum: null,\n                maximumQoS: null,\n                retainAvailable: null,\n                maximumPacketSize: null,\n                assignedClientIdentifier: null,\n                topicAliasMaximum: null,\n                reasonString: null,\n                userProperty: null,\n                wildcardSubscriptionAvailable: null,\n                subscriptionIdentifierAvailable: null,\n                sharedSubscriptionAvailable: null,\n                serverKeepAlive: msg.payload.keepalive ?? null,\n                responseInformation: null,\n                serverReference: null,\n                authenticationMethod: null,\n                authenticationData: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nreturn msg;",
+        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.payload = {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/connack.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    connackPacket: {\n        fixedHeader: {\n            controlPacketType: \"CONNACK\",\n            reserved: null,\n            remainingLength: null \n        },\n\n        variableHeader: {\n            connackFlags: {\n                reserved: null,\n                sessionPresent: null\n            },\n\n            connackReasonCode: msg.payload.event ?? null,\n\n            connackProperties: {\n                propertyLength: null,\n                sessionExpiryInterval: msg.payload.expiry_interval ?? null,\n                receiveMaximum: null,\n                maximumQoS: null,\n                retainAvailable: null,\n                maximumPacketSize: null,\n                assignedClientIdentifier: null,\n                topicAliasMaximum: null,\n                reasonString: null,\n                userProperty: null,\n                wildcardSubscriptionAvailable: null,\n                subscriptionIdentifierAvailable: null,\n                sharedSubscriptionAvailable: null,\n                serverKeepAlive: msg.payload.keepalive ?? null,\n                responseInformation: null,\n                serverReference: null,\n                authenticationMethod: null,\n                authenticationData: null\n            }\n        },\n\n        payload: {\n            // no payload\n        }\n    }\n};\n\nmsg.packet = \"connack\";\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -2320,7 +2320,8 @@
         "wires": [
             [
                 "bc6a7b2e1556cd69",
-                "7b6555f934af74e8"
+                "7b6555f934af74e8",
+                "f2903667593944c3"
             ]
         ]
     },
@@ -2517,8 +2518,8 @@
         "func": "let p = msg.payload;\n\nif (Buffer.isBuffer(p)) {\n    p = p.toString('utf8');\n}\n\nmsg.payloadFormat = 'raw';\n\nif (typeof p === 'string') {\n    const s = p.trim();\n\n    if (s.startsWith('{') || s.startsWith('[')) {\n        try {\n            msg.payload = JSON.parse(s);\n            msg.payloadFormat = 'json';\n            return [null, msg];\n        } catch (e) {\n        }\n    }\n\n    const looksLikeCsv =\n        (s.includes(';') || s.includes(',')) &&\n        s.includes('\\n') &&\n        !s.startsWith('{') &&\n        !s.startsWith('[');\n\n    if (looksLikeCsv) {\n        msg.payload = s;\n        msg.payloadFormat = 'csv';\n        return [msg, null];\n    }\n\n    msg.payload = { raw: s };\n    msg.payloadFormat = 'raw';\n    return [null, msg];\n}\n\nif (typeof p === 'object' && p !== null) {\n    msg.payload = p;\n    msg.payloadFormat = 'object';\n    return [null, msg];\n}\n\nmsg.payload = { raw: p };\nmsg.payloadFormat = 'raw';\nreturn [null, msg];",
         "outputs": 2,
         "noerr": 0,
-        "x": 1670,
-        "y": 620,
+        "x": 1390,
+        "y": 540,
         "wires": [
             [
                 "6c47b8270bff971f"
@@ -2543,8 +2544,8 @@
         "strings": true,
         "include_empty_strings": "",
         "include_null_values": "",
-        "x": 1900,
-        "y": 520,
+        "x": 1780,
+        "y": 500,
         "wires": [
             [
                 "91c6f57f27af2d21"
@@ -2559,8 +2560,8 @@
         "func": "// CSV bleibt hier absichtlich minimal.\n// Fuer produktive Nutzung musst du CSV in deine bestehende Packet-Struktur transformieren,\n// z.B. in publishPacket / connectPacket usw.\nmsg.payload = {\n    timestamp: new Date().toISOString(),\n    csvPayload: msg.payload\n};\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 2200,
-        "y": 520,
+        "x": 2100,
+        "y": 500,
         "wires": [
             [
                 "3ac794e9ab44b013"
@@ -2572,11 +2573,15 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Keep original packet structure",
-        "func": "const packet = (msg.packet || 'unknown').toLowerCase();\nmsg.topic = packet;\n// WICHTIG: payload bleibt die Originalstruktur, damit die bestehenden RML-Referenzen weiter passen\nreturn msg;",
+        "func": "const packet = (msg.packet || 'unknown').toLowerCase();\nmsg.topic = packet;\nmsg._t_in = Date.now();\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
-        "x": 2510,
-        "y": 620,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1790,
+        "y": 600,
         "wires": [
             [
                 "5b14530eecafe21f"
@@ -2604,8 +2609,8 @@
         "reduceInit": "",
         "reduceInitType": "",
         "reduceFixup": "",
-        "x": 2800,
-        "y": 520,
+        "x": 2100,
+        "y": 600,
         "wires": [
             [
                 "d3941c1b14808597"
@@ -2620,8 +2625,8 @@
         "func": "const packet = (msg.topic || 'unknown').toLowerCase();\nconst arr = Array.isArray(msg.payload) ? msg.payload : [msg.payload];\n\nmsg.filename = `/data/share/in/${packet}.json`;\nmsg.payload = JSON.stringify(arr, null, 2);\nmsg.packet = packet;\nmsg.batchSize = arr.length;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
-        "x": 3020,
-        "y": 640,
+        "x": 1760,
+        "y": 720,
         "wires": [
             [
                 "d58523faed9a99f1"
@@ -2639,8 +2644,8 @@
         "createDir": true,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 3290,
-        "y": 640,
+        "x": 2090,
+        "y": 720,
         "wires": [
             [
                 "dd52c7802610902c"
@@ -2652,11 +2657,15 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Build trigger request",
-        "func": "msg.method = 'POST';\nmsg.url = `http://rmlmapper:8080/map/${msg.packet}`;\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    packet: msg.packet,\n    batchSize: msg.batchSize\n};\nreturn msg;",
+        "func": "msg.method = 'POST';\nmsg.url = `http://rmlmapper:8080/map/${msg.packet}`;\nmsg.headers = { 'Content-Type': 'application/json' };\nmsg.payload = {\n    packet: msg.packet,\n    batchSize: msg.batchSize\n};\nmsg._t_http = Date.now();\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
-        "x": 3540,
-        "y": 660,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1780,
+        "y": 840,
         "wires": [
             [
                 "84d269eb2028372e"
@@ -2679,10 +2688,11 @@
         "authType": "",
         "senderr": true,
         "headers": [],
-        "x": 3790,
-        "y": 660,
+        "x": 2090,
+        "y": 840,
         "wires": [
             [
+                "00c5bdf72871b283",
                 "862d31c07da2dc32"
             ]
         ]
@@ -2692,14 +2702,53 @@
         "type": "debug",
         "z": "bd14a179316b9057",
         "name": "Trigger result",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
         "complete": "true",
         "targetType": "full",
-        "x": 4010,
-        "y": 640,
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2470,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "00c5bdf72871b283",
+        "type": "function",
+        "z": "bd14a179316b9057",
+        "name": "Runtime",
+        "func": "msg.timings = {\n  queue_to_http_ms: msg._t_http - msg._t_in,\n  total_to_response_ms: Date.now() - msg._t_in,\n  batchSize: msg.batchSize,\n  packet: msg.packet\n};\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 2320,
+        "y": 780,
+        "wires": [
+            [
+                "33341222b2160c60"
+            ]
+        ]
+    },
+    {
+        "id": "33341222b2160c60",
+        "type": "debug",
+        "z": "bd14a179316b9057",
+        "name": "Runtime result",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "timings",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 2480,
+        "y": 720,
         "wires": []
     },
     {
