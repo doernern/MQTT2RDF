@@ -44,6 +44,7 @@ services:
 
       - ./rml/run.sh:/work/run.sh:ro
       - ./rml/trigger_server.py:/work/trigger_server.py:ro
+      - ./rml/map_and_post.sh:/work/map_and_post.sh:ro
       - ./rml/control-packets:/work/control-packets:ro
       - ./data:/work/data
 

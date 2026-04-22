@@ -12,20 +12,24 @@ jobs = Queue(maxsize=200)
 ALLOWED_PACKETS = {
     "connect", "connack", "subscribe", "suback", "unsubscribe", "unsuback",
     "disconnect", "publish", "puback", "pubrec", "pubrel", "pubcomp",
-    "pingreq", "pingresp"
+    "pingreq", "pingresp", "auth"
 }
 
 def worker():
     while True:
-        packet = jobs.get()
+        job = jobs.get()
         start = time.time()
         try:
+            packet = job["packet"]
+            filename = job["filename"]
+
             result = subprocess.run(
-                ["sh", f"/work/control-packets/{packet}.sh"],
+                ["sh", "/work/map_and_post.sh", packet, filename],
                 check=False
             )
+
             dur = time.time() - start
-            print(f"[WORKER] packet={packet} rc={result.returncode} dur_s={dur:.3f}")
+            print(f"[WORKER] packet={packet} file={filename} rc={result.returncode} dur_s={dur:.3f}")
         finally:
             jobs.task_done()
 
@@ -73,8 +77,49 @@ class Handler(BaseHTTPRequestHandler):
             }).encode())
             return
 
+        content_length = int(self.headers.get("Content-Length", 0))
+        raw_body = self.rfile.read(content_length) if content_length > 0 else b"{}"
+
         try:
-            jobs.put_nowait(packet)
+            body = json.loads(raw_body.decode("utf-8"))
+        except Exception:
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "status": "error",
+                "message": "invalid json body"
+            }).encode())
+            return
+
+        filename = body.get("filename")
+        if not filename or not isinstance(filename, str):
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "status": "error",
+                "message": "missing filename"
+            }).encode())
+            return
+
+        if "/" in filename or ".." in filename:
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps({
+                "status": "error",
+                "message": "invalid filename"
+            }).encode())
+            return
+
+        job = {
+            "packet": packet,
+            "filename": filename
+        }
+
+        try:
+            jobs.put_nowait(job)
         except Full:
             self.send_response(503)
             self.send_header("Content-Type", "application/json")
@@ -91,6 +136,7 @@ class Handler(BaseHTTPRequestHandler):
         self.wfile.write(json.dumps({
             "status": "queued",
             "packet": packet,
+            "filename": filename,
             "queue_size": jobs.qsize()
         }).encode())
 

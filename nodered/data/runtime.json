@@ -1,0 +1,5 @@
+{"status": "queued", "packet": "publish", "queue_size": 0}
+{"status": "queued", "packet": "publish", "queue_size": 0}
+{"status": "queued", "packet": "connack", "queue_size": 0}
+{"status": "queued", "packet": "publish", "queue_size": 1}
+{"status": "queued", "packet": "publish", "queue_size": 1}
