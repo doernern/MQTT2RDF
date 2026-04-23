@@ -877,7 +877,7 @@
                 "t": "move",
                 "p": "columns",
                 "pt": "msg",
-                "to": "publishPacket.payload.encodedFields",
+                "to": "publishPacket.publishPacket.payload.encodedFields",
                 "tot": "msg"
             }
         ],
@@ -917,7 +917,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Payload JSON",
-        "func": "const payload = msg;\nmsg = {};\nmsg.payload = payload;\nmsg.packet = \"publish\";\nreturn msg;",
+        "func": "msg._t_publish_ready = Date.now();\nmsg.packet = \"publish\";\n\nif (msg.observationCollection) {\n    msg.publishPacket.observationCollection = msg.observationCollection;\n}\n\nif (msg.actuationCollection) {\n    msg.publishPacket.actuationCollection = msg.actuationCollection;\n}\n\nmsg.payload = msg.publishPacket;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -955,7 +955,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "PUBLISH",
-        "func": "msg._payload = msg.payload ;\n\nconst [hostAddress, portNumber] = (msg.payload.sockname || \"\").split(\":\");\n\nmsg.packet = \"publish\";\n\nreturn {\n    timestamp: msg.payload.timestamp,\n    path: \"/data/share/in/publish.json\" ,\n    \n    network: {\n        connection: String(msg.req.socket) ?? null ,\n        tls: null ,\n        httpVersion: msg.req.httpVersion ?? null ,\n        \n        broker: {\n            brokerID: msg.payload.node ?? null ,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        } ,\n        \n        client: {\n            clientID: msg.payload.clientid ?? null ,\n        }\n    } ,\n\n    publishPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBLISH\" ,\n            flags: {\n                dup: msg.payload.flags.dup ?? null,\n                qos: msg.payload.qos ?? null,\n                retain: msg.payload.flags.retain ?? null\n            },\n            remainingLength: msg.req.headers[\"content-length\"] ?? null \n        },\n\n        variableHeader: {\n            topicName: msg.payload.topic ?? null ,\n            packetIdentifier: null,\n\n            publishProperties: {\n                propertyLength: null,\n                payloadFormatIndicator: null,\n                messageExpiryInterval: null,\n                topicAlias: null,\n                responseTopic: null,\n                correlationData: null,\n                userProperty: Object.entries(msg.payload.pub_props?.[\"User-Property\"] ?? {})\n                .map(([name, value]) => ({\n                    name,\n                    value: String(value),\n                    timestamp: msg.payload.timestamp   // <-- mitgeben\n                })),\n                subscriptionIdentifier: null,\n                contentType: msg.req.body.pub_props[\"Content-Type\"] ?? null\n            }\n        },\n\n        payload: {\n            data: msg.payload.payload ?? null \n        }\n    }\n};",
+        "func": "msg._payload = msg.payload;\nmsg._t_publish_start = Date.now();\nmsg.packet = \"publish\";\n\nconst src = msg.payload;\nconst [hostAddress, portNumber] = (src.sockname || \"\").split(\":\");\n\nmsg.publishPacket = {\n    timestamp: src.timestamp,\n    path: \"/data/share/in/publish.json\",\n\n    network: {\n        connection: String(msg.req.socket) ?? null,\n        tls: null,\n        httpVersion: msg.req.httpVersion ?? null,\n\n        broker: {\n            brokerID: src.node ?? null,\n            hostAddress: hostAddress || null,\n            portNumber: portNumber || null\n        },\n\n        client: {\n            clientID: src.clientid ?? null\n        }\n    },\n\n    publishPacket: {\n        fixedHeader: {\n            controlPacketType: \"PUBLISH\",\n            flags: {\n                dup: src.flags?.dup ?? null,\n                qos: src.qos ?? null,\n                retain: src.flags?.retain ?? null\n            },\n            remainingLength: msg.req.headers[\"content-length\"] ?? null\n        },\n\n        variableHeader: {\n            topicName: src.topic ?? null,\n            packetIdentifier: null,\n\n            publishProperties: {\n                propertyLength: null,\n                payloadFormatIndicator: null,\n                messageExpiryInterval: null,\n                topicAlias: null,\n                responseTopic: null,\n                correlationData: null,\n                userProperty: Object.entries(src.pub_props?.[\"User-Property\"] ?? {})\n                    .map(([name, value]) => ({\n                        name,\n                        value: String(value),\n                        timestamp: src.timestamp\n                    })),\n                subscriptionIdentifier: null,\n                contentType: msg.req.body?.pub_props?.[\"Content-Type\"] ?? null\n            }\n        },\n\n        payload: {\n            data: src.payload ?? null\n        }\n    }\n};\n\n// Nur der Rohinhalt als Arbeits-payload\nmsg.payload = src.payload ?? null;\n\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -963,7 +963,7 @@
         "finalize": "",
         "libs": [],
         "x": 480,
-        "y": 900,
+        "y": 940,
         "wires": [
             [
                 "9b5ec1fd22b2459b",
@@ -996,7 +996,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Set RAW payload",
-        "func": "msg.payload = msg.publishPacket.payload.data ;\n\n// Ensure msg.raw is a plain string (handles Buffer/objects)\nif (typeof msg.payload === 'string') {\n  msg.publishPacket.payload.data = msg.payload;\n} else if (Buffer.isBuffer(msg.payload)) {\n  msg.publishPacket.payload.data = msg.payload.toString('utf8');\n} else {\n  msg.publishPacket.payload.data = JSON.stringify(msg.payload);\n}\n\nmsg.payload = msg.publishPacket.payload.data\n\nreturn msg;\n",
+        "func": "let raw = msg.payload;\n\nif (raw === undefined || raw === null) {\n    node.warn(\"no payload\");\n    return null;\n}\n\nif (typeof raw === \"string\") {\n    // ok\n} else if (Buffer.isBuffer(raw)) {\n    raw = raw.toString(\"utf8\");\n} else {\n    raw = JSON.stringify(raw);\n}\n\nmsg.payload = raw;\nreturn msg;",
         "outputs": 1,
         "timeout": 0,
         "noerr": 0,
@@ -1430,7 +1430,7 @@
         "type": "switch",
         "z": "bd14a179316b9057",
         "name": "",
-        "property": "publishPacket.variableHeader.topicName",
+        "property": "publishPacket.publishPacket.variableHeader.topicName",
         "propertyType": "msg",
         "rules": [
             {
@@ -1480,7 +1480,7 @@
                 "t": "move",
                 "p": "columns",
                 "pt": "msg",
-                "to": "publishPacket.payload.encodedFields",
+                "to": "publishPacket.publishPacket.payload.encodedFields",
                 "tot": "msg"
             }
         ],
@@ -1502,74 +1502,16 @@
         "id": "f2903667593944c3",
         "type": "function",
         "z": "bd14a179316b9057",
-        "name": "Normalize payload",
-        "func": "let p = msg.payload;\n\nif (Buffer.isBuffer(p)) {\n    p = p.toString('utf8');\n}\n\nmsg.payloadFormat = 'raw';\n\nif (typeof p === 'string') {\n    const s = p.trim();\n\n    if (s.startsWith('{') || s.startsWith('[')) {\n        try {\n            msg.payload = JSON.parse(s);\n            msg.payloadFormat = 'json';\n            return [null, msg];\n        } catch (e) {\n        }\n    }\n\n    const looksLikeCsv =\n        (s.includes(';') || s.includes(',')) &&\n        s.includes('\\n') &&\n        !s.startsWith('{') &&\n        !s.startsWith('[');\n\n    if (looksLikeCsv) {\n        msg.payload = s;\n        msg.payloadFormat = 'csv';\n        return [msg, null];\n    }\n\n    msg.payload = { raw: s };\n    msg.payloadFormat = 'raw';\n    return [null, msg];\n}\n\nif (typeof p === 'object' && p !== null) {\n    msg.payload = p;\n    msg.payloadFormat = 'object';\n    return [null, msg];\n}\n\nmsg.payload = { raw: p };\nmsg.payloadFormat = 'raw';\nreturn [null, msg];",
-        "outputs": 2,
-        "noerr": 0,
-        "x": 1310,
-        "y": 480,
-        "wires": [
-            [
-                "6c47b8270bff971f"
-            ],
-            [
-                "3ac794e9ab44b013"
-            ]
-        ]
-    },
-    {
-        "id": "6c47b8270bff971f",
-        "type": "csv",
-        "z": "bd14a179316b9057",
-        "name": "CSV to JSON only if needed",
-        "sep": ";",
-        "hdrin": true,
-        "hdrout": "none",
-        "multi": "one",
-        "ret": "\\n",
-        "temp": "",
-        "skip": "0",
-        "strings": true,
-        "include_empty_strings": "",
-        "include_null_values": "",
-        "x": 1640,
-        "y": 500,
-        "wires": [
-            [
-                "91c6f57f27af2d21"
-            ]
-        ]
-    },
-    {
-        "id": "91c6f57f27af2d21",
-        "type": "function",
-        "z": "bd14a179316b9057",
-        "name": "Wrap CSV result minimally",
-        "func": "// CSV bleibt hier absichtlich minimal.\n// Fuer produktive Nutzung musst du CSV in deine bestehende Packet-Struktur transformieren,\n// z.B. in publishPacket / connectPacket usw.\nmsg.payload = {\n    timestamp: new Date().toISOString(),\n    csvPayload: msg.payload\n};\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "x": 1960,
-        "y": 500,
-        "wires": [
-            [
-                "3ac794e9ab44b013"
-            ]
-        ]
-    },
-    {
-        "id": "3ac794e9ab44b013",
-        "type": "function",
-        "z": "bd14a179316b9057",
-        "name": "Keep original packet structure",
-        "func": "const packet = (msg.packet || 'unknown').toLowerCase();\nmsg.topic = packet;\nmsg._t_in = Date.now();\nreturn msg;",
+        "name": "Prepare for batching",
+        "func": "const packet = String(msg.packet || '').toLowerCase().trim();\n\nif (!packet) {\n    node.warn(\"no msg.packet\");\n    return null;\n}\n\nmsg.packet = packet;\nmsg.topic = packet;\n\nif (!msg._t_in) {\n    msg._t_in = Date.now();\n}\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1650,
-        "y": 600,
+        "x": 1620,
+        "y": 480,
         "wires": [
             [
                 "safe_batch_per_packet"
@@ -1589,7 +1531,7 @@
         "finalize": "",
         "libs": [],
         "x": 1620,
-        "y": 720,
+        "y": 580,
         "wires": [
             [
                 "d58523faed9a99f1"
@@ -1607,8 +1549,8 @@
         "createDir": true,
         "overwriteFile": "true",
         "encoding": "utf8",
-        "x": 1950,
-        "y": 720,
+        "x": 1890,
+        "y": 580,
         "wires": [
             [
                 "dd52c7802610902c"
@@ -1628,7 +1570,7 @@
         "finalize": "",
         "libs": [],
         "x": 1640,
-        "y": 840,
+        "y": 660,
         "wires": [
             [
                 "84d269eb2028372e"
@@ -1651,8 +1593,8 @@
         "authType": "",
         "senderr": true,
         "headers": [],
-        "x": 1950,
-        "y": 840,
+        "x": 1890,
+        "y": 660,
         "wires": [
             [
                 "00c5bdf72871b283",
@@ -1673,8 +1615,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2410,
-        "y": 840,
+        "x": 2150,
+        "y": 660,
         "wires": []
     },
     {
@@ -1682,15 +1624,15 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Runtime",
-        "func": "msg.timings = {\n  queue_to_http_ms: msg._t_http - msg._t_in,\n  total_to_response_ms: Date.now() - msg._t_in,\n  batchSize: msg.batchSize,\n  packet: msg.packet\n};\n\nmsg.payload = JSON.stringify(msg.timings);\n\nreturn msg;",
+        "func": "const now = Date.now();\n\nconst publish_preprocessing_ms =\n  msg.packet === \"publish\" && msg._t_publish_start && msg._t_publish_ready\n    ? (msg._t_publish_ready - msg._t_publish_start)\n    : 0;\n\nconst queue_and_batch_ms = msg._t_http - msg._t_in;\nconst mapper_ms = now - msg._t_http;\n\nmsg.timings = {\n  packet: msg.packet,\n  publish_preprocessing_ms,\n  queue_and_batch_ms,\n  mapper_ms,\n  total_ms: publish_preprocessing_ms + queue_and_batch_ms + mapper_ms,\n  batch_size: msg.batchSize,\n  batch_timeout_ms: msg.batchTimeoutMs\n};\n\nmsg.payload = JSON.stringify(msg.timings);\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 2180,
-        "y": 780,
+        "x": 1640,
+        "y": 740,
         "wires": [
             [
                 "4b8c0df1e9bdd83a"
@@ -1710,8 +1652,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 2420,
-        "y": 760,
+        "x": 2160,
+        "y": 740,
         "wires": []
     },
     {
@@ -1725,8 +1667,8 @@
         "createDir": true,
         "overwriteFile": "false",
         "encoding": "utf8",
-        "x": 2350,
-        "y": 680,
+        "x": 1890,
+        "y": 740,
         "wires": [
             [
                 "33341222b2160c60"
@@ -1738,15 +1680,15 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Batch per packet",
-        "func": "const packet = (msg.packet || msg.topic || 'unknown').toLowerCase();\nconst batchSize = 20;\nconst batchTimeoutMs = 2000;\n\nlet batches = flow.get('packet_batches') || {};\nlet timers = flow.get('packet_batch_timers') || {};\n\nif (!batches[packet]) {\n    batches[packet] = [];\n}\n\nbatches[packet].push(msg.payload);\nflow.set('packet_batches', batches);\n\nconst flushPacket = (pkt) => {\n    let currentBatches = flow.get('packet_batches') || {};\n    let currentTimers = flow.get('packet_batch_timers') || {};\n\n    const arr = currentBatches[pkt] || [];\n    if (!arr.length) {\n        return null;\n    }\n\n    delete currentBatches[pkt];\n    flow.set('packet_batches', currentBatches);\n\n    if (currentTimers[pkt]) {\n        clearTimeout(currentTimers[pkt]);\n        delete currentTimers[pkt];\n        flow.set('packet_batch_timers', currentTimers);\n    }\n\n    return {\n        packet: pkt,\n        topic: pkt,\n        payload: arr,\n        batchSize: arr.length,\n        _t_in: msg._t_in\n    };\n};\n\nif (!timers[packet]) {\n    timers[packet] = setTimeout(() => {\n        const out = flushPacket(packet);\n        if (out) {\n            node.send(out);\n        }\n    }, batchTimeoutMs);\n    flow.set('packet_batch_timers', timers);\n}\n\nif (batches[packet].length >= batchSize) {\n    return flushPacket(packet);\n}\n\nreturn null;",
+        "func": "const packet = (msg.packet || msg.topic || 'unknown').toLowerCase();\nconst batchSize = 20;\nconst batchTimeoutMs = 200;\n\nlet batches = flow.get('packet_batches') || {};\nlet timers = flow.get('packet_batch_timers') || {};\n\nif (!batches[packet]) {\n    batches[packet] = [];\n}\n\nbatches[packet].push(msg.payload);\nflow.set('packet_batches', batches);\n\nconst flushPacket = (pkt) => {\n    let currentBatches = flow.get('packet_batches') || {};\n    let currentTimers = flow.get('packet_batch_timers') || {};\n\n    const arr = currentBatches[pkt] || [];\n    if (!arr.length) {\n        return null;\n    }\n\n    delete currentBatches[pkt];\n    flow.set('packet_batches', currentBatches);\n\n    if (currentTimers[pkt]) {\n        clearTimeout(currentTimers[pkt]);\n        delete currentTimers[pkt];\n        flow.set('packet_batch_timers', currentTimers);\n    }\n\n    return {\n        packet: pkt,\n        topic: pkt,\n        payload: arr,\n        batchSize: arr.length,\n        batchTimeoutMs: batchTimeoutMs,\n        _t_in: msg._t_in,\n        _t_publish_start: msg._t_publish_start,\n        _t_publish_ready: msg._t_publish_ready\n    };\n};\n\nif (!timers[packet]) {\n    timers[packet] = setTimeout(() => {\n        const out = flushPacket(packet);\n        if (out) {\n            node.send(out);\n        }\n    }, batchTimeoutMs);\n    flow.set('packet_batch_timers', timers);\n}\n\nif (batches[packet].length >= batchSize) {\n    return flushPacket(packet);\n}\n\nreturn null;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "let timers = flow.get('packet_batch_timers') || {};\nfor (const key of Object.keys(timers)) {\n    clearTimeout(timers[key]);\n}\nflow.set('packet_batch_timers', {});",
         "libs": [],
-        "x": 1950,
-        "y": 600,
+        "x": 1890,
+        "y": 480,
         "wires": [
             [
                 "d3941c1b14808597"
