@@ -1,0 +1,10 @@
+{"packet":"publish","publish_preprocessing_ms":3,"queue_and_batch_ms":225,"mapper_ms":3,"total_ms":231,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":0,"queue_and_batch_ms":228,"mapper_ms":3,"total_ms":231,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":0,"queue_and_batch_ms":223,"mapper_ms":2,"total_ms":225,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":1,"queue_and_batch_ms":227,"mapper_ms":3,"total_ms":231,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":1,"queue_and_batch_ms":223,"mapper_ms":2,"total_ms":226,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":1,"queue_and_batch_ms":224,"mapper_ms":4,"total_ms":229,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":2,"queue_and_batch_ms":219,"mapper_ms":2,"total_ms":223,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":2,"queue_and_batch_ms":225,"mapper_ms":4,"total_ms":231,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":1,"queue_and_batch_ms":226,"mapper_ms":4,"total_ms":231,"batch_size":1,"batch_timeout_ms":200}
+{"packet":"publish","publish_preprocessing_ms":1,"queue_and_batch_ms":218,"mapper_ms":3,"total_ms":222,"batch_size":1,"batch_timeout_ms":200}
