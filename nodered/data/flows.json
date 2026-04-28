@@ -940,7 +940,7 @@
                 "t": "set",
                 "p": "observationCollection",
                 "pt": "msg",
-                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(JobStart),\t   \"EndTime\": $string(JobEnd),\t   \"Sensor\":$string(Sensor),\t   \"Actor\": $string(Actuator),\t   \"Observation\": [\t       {\t           \"Property\":\"GripPoint_X\",\t           \"Result\":$string(GripPoint_X)\t           },\t       {\t           \"Property\":\"GripPoint_Y\",\t           \"Result\":$string(GripPoint_Y)\t           },\t       {\t           \"Property\":\"GripPoint_Z\",\t           \"Result\":$string(GripPoint_Z)\t           }\t  ]\t}\t",
+                "to": "[\t    payload.{\t    \"FeatureOfInterest\": RFID,\t    \"StartTime\": $string(JobStart),\t    \"EndTime\": $string(JobEnd),\t    \"Sensor\":$string(Sensor),\t    \"Actor\": $string(Actuator),\t    \"Observation\": [\t        {\t            \"Property\":\"GripPoint_X\",\t            \"Result\":$string(GripPoint_X)\t            },\t        {\t            \"Property\":\"GripPoint_Y\",\t            \"Result\":$string(GripPoint_Y)\t            },\t        {\t            \"Property\":\"GripPoint_Z\",\t            \"Result\":$string(GripPoint_Z)\t            }\t    ]\t    }\t]",
                 "tot": "jsonata"
             },
             {
@@ -1543,7 +1543,7 @@
                 "t": "set",
                 "p": "actuationCollection",
                 "pt": "msg",
-                "to": "   payload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(JobStart),\t   \"EndTime\": $string(JobEnd),\t   \"Sensor\":$string(Sensor),\t   \"Actuator\": $string(Actuator),\t   \"Actuation\": [\t       {\t           \"Property\":\"Correction_X\",\t           \"Result\":$string(Correction_X)\t           },\t       {\t           \"Property\":\"Correction_Y\",\t           \"Result\":$string(Correction_Y)\t           },\t       {\t           \"Property\":\"Correction_Z\",\t           \"Result\":$string(Correction_Z)\t           }\t  ]\t}\t",
+                "to": "[\tpayload.{\t   \"FeatureOfInterest\": RFID,\t   \"StartTime\": $string(JobStart),\t   \"EndTime\": $string(JobEnd),\t   \"Sensor\":$string(Sensor),\t   \"Actuator\": $string(Actuator),\t   \"Actuation\": [\t       {\t           \"Property\":\"Correction_X\",\t           \"Result\":$string(Correction_X)\t           },\t       {\t           \"Property\":\"Correction_Y\",\t           \"Result\":$string(Correction_Y)\t           },\t       {\t           \"Property\":\"Correction_Z\",\t           \"Result\":$string(Correction_Z)\t           }\t  ]\t}\t]",
                 "tot": "jsonata"
             },
             {
@@ -1699,7 +1699,7 @@
         "type": "function",
         "z": "bd14a179316b9057",
         "name": "Runtime",
-        "func": "const now = Date.now();\n\nif (msg.packet === \"publish\") {\n\nconst publish_preprocessing_ms =\n  msg.packet === \"publish\" && msg._t_publish_start && msg._t_publish_ready\n    ? (msg._t_publish_ready - msg._t_publish_start)\n    : 0;\n\nconst queue_and_batch_ms = msg._t_http - msg._t_in;\nconst mapper_ms = now - msg._t_http;\n\nmsg.timings = {\n  packet: msg.packet,\n  publish_preprocessing_ms,\n  queue_and_batch_ms,\n  mapper_ms,\n  total_ms: publish_preprocessing_ms + queue_and_batch_ms + mapper_ms,\n  batch_size: msg.batchSize,\n  batch_timeout_ms: msg.batchTimeoutMs\n};\n\nmsg.payload = JSON.stringify(msg.timings);\n\nreturn msg;\n\n}",
+        "func": "const now = Date.now();\n\nconst publish_preprocessing_ms =\n  msg.packet === \"publish\" && msg._t_publish_start && msg._t_publish_ready\n    ? (msg._t_publish_ready - msg._t_publish_start)\n    : 0;\n\nconst queue_and_batch_ms = msg._t_http - msg._t_in;\nconst mapper_ms = now - msg._t_http;\n\nmsg.timings = {\n  packet: msg.packet,\n  filename: msg.batchFilename,\n  publish_preprocessing_ms,\n  queue_and_batch_ms,\n  mapper_ms,\n  nodered_total_ms: publish_preprocessing_ms + queue_and_batch_ms + mapper_ms,\n  batch_size: msg.batchSize,\n  batch_timeout_ms: msg.batchTimeoutMs\n};\n\nmsg.payload = JSON.stringify(msg.timings);\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1736,7 +1736,7 @@
         "type": "file",
         "z": "bd14a179316b9057",
         "name": "Save runtime",
-        "filename": "/data/share/runtime.json",
+        "filename": "/data/share/nodered_runtime.json",
         "filenameType": "str",
         "appendNewline": true,
         "createDir": true,
